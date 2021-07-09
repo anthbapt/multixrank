@@ -1,0 +1,7 @@
+name: multixrank
+channels:
+  - anaconda
+dependencies:
+  - pip
+  - pip:
+    -r file:requirements.txt

@@ -1,0 +1,10 @@
+coverage
+networkx
+numpy
+pandas
+pygments
+pyyaml
+scipy
+sphinx
+sphinx_rtd_theme
+twine
