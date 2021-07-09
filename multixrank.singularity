@@ -1,0 +1,31 @@
+Bootstrap: docker
+From: continuumio/miniconda3:4.9.2
+
+%help
+https://github.com/aitgon/multixrank
+Debian GNU/Linux 10 (buster)
+Digest:sha256:7838d0ce65783b0d944c19d193e2e6232196bada9e5f3762dc7a9f07dc271179
+Python 3.8.5 (default, Sep  4 2020, 07:30:14)
+build time: 1m40.778s
+
+Usage:
+$ sudo singularity build multixrank.sif multixrank.def
+
+%post
+apt-get update && apt-get install -y rsync gcc
+/opt/conda/bin/conda create --name multixrank python=3.9 -y
+/opt/conda/envs/multixrank/bin/pip install networkx==2.5.1
+/opt/conda/envs/multixrank/bin/pip install numpy==1.20.2
+/opt/conda/envs/multixrank/bin/pip install pandas==1.2.4
+/opt/conda/envs/multixrank/bin/pip install psutil==5.8.0
+/opt/conda/envs/multixrank/bin/pip install PyYAML==5.4.1
+/opt/conda/envs/multixrank/bin/pip install scipy==1.6.2
+
+%environment
+export LC_ALL=C
+# Will overwrite python with the multixrank conda env version
+export PATH=/opt/conda/envs/multixrank/bin:/opt/conda/bin:$PATH
+
+%apprun multixrank
+  exec multixrank "${@}"
+
