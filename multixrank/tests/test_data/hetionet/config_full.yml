@@ -1,0 +1,88 @@
+seed: seeds.txt
+r: 0.7
+# self_loops: Are self-loops allowed? 1 yes, 0 not
+self_loops: 1
+# eta: Restart probability for each multiplex. Must sum up to one.
+eta: [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9] # OK
+#4. Inter multiplex Networks Jump Probability (lambda)
+lamb: # ok
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+    - [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9]
+multiplex:
+    1:
+        layers:
+            - multiplex/1/GcG.gr
+            - multiplex/1/GiG.gr
+            - multiplex/1/GrG.gr
+        delta: 0.5
+        # Graph type: unweighted/weighted, undirected/directed
+        graph_type: [00, 00, 00]
+        # Restart probabily 3. Layers Restart Probability (tau)
+        tau: [1/3, 1/3, 1/3]
+    2:
+        layers:
+            - multiplex/2/DrD.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    3:
+        layers:
+            - multiplex/3/CrC.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    4:
+        layers:
+            - multiplex/4/anatomy.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    5:
+        layers:
+            - multiplex/5/Symptoms.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    6:
+        layers:
+            - multiplex/6/SideEffect.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    7:
+        layers:
+            - multiplex/7/PharmacologicClass.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    8:
+        layers:
+            - multiplex/8/Pathways.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    9:
+        layers:
+            - multiplex/9/BiologicalProcess.gr
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+        
+bipartite:
+    bipartite/1_8.gr: {source: 1, 'target': 8, graph_type: 00}
+    bipartite/1_9.gr: {source: 1, 'target': 9, graph_type: 00}
+    bipartite/2_1.gr: {source: 2, 'target': 1, graph_type: 00}
+    bipartite/2_4.gr: {source: 2, 'target': 4, graph_type: 00}
+    bipartite/2_5.gr: {source: 2, 'target': 5, graph_type: 00}
+    bipartite/3_1.gr: {source: 3, 'target': 1, graph_type: 00}
+    bipartite/3_2.gr: {source: 3, 'target': 2, graph_type: 00}
+    bipartite/3_6.gr: {source: 3, 'target': 6, graph_type: 00}
+    bipartite/4_1.gr: {source: 4, 'target': 1, graph_type: 00}
+    bipartite/7_3.gr: {source: 7, 'target': 3, graph_type: 00}

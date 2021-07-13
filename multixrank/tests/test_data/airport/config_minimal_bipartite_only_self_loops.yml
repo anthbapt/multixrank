@@ -1,0 +1,31 @@
+multiplex:
+    1:
+        layers:
+            - data_example/airport/multiplex/1/FR26.tsv
+            - data_example/airport/multiplex/1/FR3.tsv
+            - data_example/airport/multiplex/1/FR7.tsv
+    2:
+        layers:
+            - data_example/airport/multiplex/2/UK15.tsv
+            - data_example/airport/multiplex/2/UK26.tsv
+            - data_example/airport/multiplex/2/UK3.tsv
+    3:
+        layers:
+            - data_example/airport/multiplex/3/G1.tsv
+            - data_example/airport/multiplex/3/G24.tsv
+            - data_example/airport/multiplex/3/G6.tsv
+bipartite:
+    tests/test_data/airport/bipartite/1_2_only_self_loops.tsv:
+        source: 1
+        target: 2
+    data_example/airport/bipartite/1_3.tsv:
+        source: 1
+        target: 3
+    data_example/airport/bipartite/2_3.tsv:
+        source: 2
+        target: 3
+seed:
+    data_example/airport/seeds.txt
+
+#tests/test_data/bipartite/1_2_only_self_loops.tsv:
+
