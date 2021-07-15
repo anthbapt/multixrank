@@ -24,7 +24,9 @@ MultiXrank is a Python package for the exploration of heterogeneous multilayer n
 If you use MultiXrank in scientific works, **please cite the following article**:
 
 **Baptista, A., González, A., Baudot, A.**.
-`Universal Multilayer Network Exploration by Random Walk with Restart`. In preparation.
+`Universal Multilayer Network Exploration by Random Walk with Restart`. Arxiv 2021.
+
+https://arxiv.org/abs/2107.04565
 
 Commands for a quick installation:
 
