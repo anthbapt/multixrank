@@ -115,6 +115,6 @@ This runs the software and writes the results here:
     3	166	0.0038198804520776
     3	38	0.0037597000889303313
 
-The `MultiXrank documentation <multixrank-doc.readthedocs.io/>`_ is hosted at ReadTheDocs.
+The `MultiXrank documentation <https://multixrank-doc.readthedocs.io/>`_ is hosted at ReadTheDocs.
 
 MultiXrank is maintained by Anthony Baptista (anthony dot baptista at univ-amu dot fr) and Aitor González (aitor dot gonzalez at univ-amu dot fr)
