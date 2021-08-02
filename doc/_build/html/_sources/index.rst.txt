@@ -13,8 +13,8 @@ MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart
 .. image:: https://img.shields.io/pypi/pyversions/multixrank.svg
     :target: https://www.python.org
 
-.. image:: https://readthedocs.org/projects/multixrank/badge/?version=latest
-    :target: http://multixrank.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/multixrank-doc/badge/?version=latest
+    :target: https://multixrank-doc.readthedocs.io/en/latest/?badge=latest
 
 .. image:: https://github.com/aitgon/multixrank/workflows/CI/badge.svg
     :target: https://github.com/aitgon/multixrank/actions?query=branch%3Amaster+workflow%3ACI
