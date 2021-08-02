@@ -15,7 +15,7 @@ MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart
 
 .. image:: https://readthedocs.org/projects/multixrank-doc/badge/?version=latest
     :target: https://multixrank-doc.readthedocs.io/en/latest/?badge=latest
-
+    
 .. image:: https://github.com/aitgon/multixrank/workflows/CI/badge.svg
     :target: https://github.com/aitgon/multixrank/actions?query=branch%3Amaster+workflow%3ACI
 
