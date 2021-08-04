@@ -91,11 +91,11 @@ The multiplex and bipartite graph types as either undirected or directed and unw
      - Weighted
      - Code
    * - Undirected, unweighted
-     - Not
-     - Not
+     - No
+     - No
      - 00
    * - Undirected, weighted
-     - Not
+     - No
      - Yes
      - 01
    * - Directed, unweighted
