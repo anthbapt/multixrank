@@ -64,7 +64,7 @@ Below we explain the numerical parameters needed to run the random walk.
 
 - 'tau' is given as a list of vectors where each vector corresponds to the restart probabilities in each multiplex network
 - Elements of each vector correspond to the restart probabilities at the given layer
-- For, instance the tau_2_3 corresponds to the restart probability at the third layer of the second multiplex network
+- For, instance the tau\ :sub:`23`\  corresponds to the restart probability at the third layer of the second multiplex network
 
 **eta**
 
@@ -75,7 +75,7 @@ Below we explain the numerical parameters needed to run the random walk.
 **lambda**
 
 The parameter 'lambda' is associated with the probability to jump from one multiplex network to another one.
-For instance, lambda\ :sub:`ij`\  represents the probability to jump from the multiplex i to the multiplex j.
+For instance, lambda\ :sub:`ij`\  represents the probability to jump from the multiplex network i to the multiplex network j.
 
 **graph_type** field: unweighted/weighted, undirected/directed
 
