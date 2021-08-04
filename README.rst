@@ -1,5 +1,5 @@
 =============================================================================================
-MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart
+MultiXrank - universal MULTIlayer eXploration by RANdom walK with restart
 =============================================================================================
 
 .. image:: https://img.shields.io/pypi/v/multixrank.svg
