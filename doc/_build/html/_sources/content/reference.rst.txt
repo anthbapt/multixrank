@@ -49,11 +49,11 @@ Below we explain the numerical parameters needed to run the random walk.
     :align: center
     :width: 600
 
-    Schema of the numerical parameters to run the random walk.
+    MultiXrank RWR parameters to explore universal multilayer networks composed of N multiplex networks (each composed of several layers containing the same set of nodes but different edges). The parameters 'delta' are associated with the probability to jump from one layer to another in a given multiplex network, 'lambda' with the probability to jump from one multiplex network to another multiplex network, 'tau' with the probability to restart in a given layer of a given multiplex network, and 'eta' with the probability to restart in a given multiplex network.
 
 **r**
 
-- The global restart probability is given by the decimal **r**
+- The global restart probability is given by the float number **r** between 0 and 1
 
 **delta**
 
