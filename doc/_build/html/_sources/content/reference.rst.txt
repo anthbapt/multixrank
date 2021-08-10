@@ -35,7 +35,7 @@ Multiplex and bipartite **unweighted** networks are given as two-column TSV file
 This is an example: :download:`FR3.tsv <../../multixrank/data_example/airport/multiplex/1/FR3.tsv>`
 
 Multiplex and bipartite **weighted** networks are given as two-column TSV files without a header.
-This is an example: :download:`1_3_weighted.tsv <../../multixrank/tests/test_data/bipartite/1_3_weighted.tsv>`
+This is an example: :download:`1_3_weighted.tsv <../../multixrank/tests/test_data/bipartite/1_3_3columns.tsv>`
 
 .. _reference_parameter:
 
