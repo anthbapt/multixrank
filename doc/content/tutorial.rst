@@ -88,7 +88,7 @@ This runs the software and writes the results here:
     3	38	0.0037597000889303313
 
 The SIF file with the sub-network that includes the top 3 nodes can be opened
-and visualized in Cytoscape as in the following figure:
+and visualized in Cytoscape (https://cytoscape.org) as in the following figure:
 
 .. image:: airport.png
    :align: center

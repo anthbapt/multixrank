@@ -1,4 +1,4 @@
-.. metabarcoding documentation master file, created by
+.. multixrank documentation master file, created by
    sphinx-quickstart on Tue Oct 31 20:17:07 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -17,7 +17,7 @@ MultiXrank - universal MULTIlayer eXploration by RANdom walK with restart
     :target: https://multixrank-doc.readthedocs.io/en/latest/?badge=latest
     
 
-MultiXrank is a Python package for the exploration of heterogeneous multilayer networks, with random walk with restart method. It permits prioritization of nodes between full heterogeneous networks, whatever their complexities.
+MultiXrank is a Python package implementing a random walk with restart approach to explore multilayer networks. MultiXrank allows node prioritization from universal and heterogeneous multilayer networks composed on any combination of network layers.
 
 Table of Contents
 =================

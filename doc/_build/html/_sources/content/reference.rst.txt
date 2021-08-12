@@ -13,7 +13,7 @@ These are the main multixrank methods.
 Example class
 --------------------------------
 
-There is also this class to generate a working example.
+There is a class to generate a working example.
 
 .. automodule:: multixrank.Example
     :members: write

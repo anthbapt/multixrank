@@ -8,7 +8,7 @@ Commands for a quick installation:
     conda create --name multixrank python=3.9 -y
     python3 -m pip install multixrank
 
-We also provide a singularity container in the multixrank github: https://github.com/aitgon/multixrank .
+We also provide a singularity container in the multixrank github: https://github.com/anthbapt/multixrank .
 First the image is built with this command as root:
 
 .. code-block:: bash
