@@ -46,7 +46,7 @@ jobs:
       env:
         CI: true
       run: |
-        # activate conda env
+      # activate conda env
         export PATH="/usr/share/miniconda/bin:$PATH"
         source activate multixrank
         vsearch --version
