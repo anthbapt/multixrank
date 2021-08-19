@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    strategy:
+      max-parallel: 5
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: false
+    #- name: Checkout LFS objects
+    #  run: git lfs checkout
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Setup environment
+      run: |
+          export PATH="/usr/share/miniconda/bin:$PATH"
+          conda create -q -n multixrank
+          source activate multixrank
+          conda env update -f environment.yml
+    - name: Run tests
+      env:
+        CI: true
+      run: |
+        # activate conda env
+        export PATH="/usr/share/miniconda/bin:$PATH"
+        source activate multixrank
+        vsearch --version
+        cutadapt --version
+        blastn -version
+        python -m unittest discover -v -f
+      
