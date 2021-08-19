@@ -1,5 +1,5 @@
 coverage
-networkx
+networkx==2.5
 numpy
 pandas
 pygments
