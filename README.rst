@@ -14,7 +14,7 @@ MultiXrank - universal MULTIlayer eXploration by RANdom walK with restart
 .. image:: https://github.com/anthbapt/multixrank/workflows/CI/badge.svg
     :target: https://github.com/anthbapt/multixrank/actions?query=branch%3Amaster+workflow%3ACI
     
-.. image:: https://travis-ci.org/anthbapt/multixrank.svg?branch=master
+.. image:: https://travis-ci.org/anthbapt/multixrank.svg?branch=main
     :target: https://travis-ci.org/anthbapt/multixrank
 
 
