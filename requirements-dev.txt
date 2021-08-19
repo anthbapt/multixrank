@@ -1,6 +1,6 @@
 coverage
 networkx==2.5
-numpy==1.21.2
+numpy
 pandas
 pygments
 pyyaml
