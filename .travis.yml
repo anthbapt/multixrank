@@ -33,7 +33,7 @@ install:
   - conda activate tests-environment
   - conda env update -f environment.yml
   - pip install coverage
-  - python setup.py install
+  - python3 setup.py install
 
 script:
   # Your tests script goes here
