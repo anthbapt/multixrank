@@ -19,8 +19,8 @@ MultiXrank - universal MULTIlayer eXploration by RANdom walK with restart
 .. image:: https://github.com/anthbapt/multixrank/workflows/CI/badge.svg
     :target: https://github.com/anthbapt/multixrank/actions?query=branch%3Amaster+workflow%3ACI
     
-.. image:: https://travis-ci.org/anthbapt/multixrank.svg?branch=master
-    :target: https://travis-ci.org/anthbapt/multixrank
+.. image:: https://travis-ci.com/anthbapt/multixrank.svg?branch=main
+    :target: https://travis-ci.com/anthbapt/multixrank
 
 
 MultiXrank is a Python package implementing a random walk with restart approach to explore multilayer networks. MultiXrank allows node prioritization from universal and heterogeneous multilayer networks composed on any combination of network layers.
