@@ -1,5 +1,9 @@
 import filecmp
 import logging
+
+import numpy
+import pandas
+
 import multixrank
 import os
 import pathlib
@@ -9,7 +13,7 @@ import unittest
 from multixrank.logger_setup import logger
 from multixrank.PathManager import PathManager
 
-logger.setLevel(logging.INFO)  # set root's level
+logger.setLevel(logging.INFO)  # set log level
 
 
 class TestAirport(unittest.TestCase):
@@ -249,7 +253,15 @@ class TestAirport(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_node_lst = pandas.read_csv(os.path.join(outdir_path, "multiplex_1.tsv"), sep="\t",
+                        usecols=['node'])['node'].tolist()
+        multiplex_1_node_lst_bak = [7, 169, 199, 388, 8, 58, 433, 307, 326, 403, 394, 360, 95, 402, 416, 63, 282, 431]
+        multiplex_1_score_lst = pandas.read_csv(os.path.join(outdir_path, "multiplex_1.tsv"), sep="\t",
+                        usecols=['score'])['score'].tolist()
+        multiplex_1_score_lst_bak = [0.2500873854964836, 0.0025393062908776, 0.0018244693044668, 0.0012740507584425, 0.0007528726712945, 0.0006843092500177, 0.0006501328191765, 0.0006456237359361, 0.0006248177192996, 0.000494931071015, 0.0001560585138055, 0.0001349923384659, 0.0001165598871761, 9.64534454983614e-05, 3.9582033642612745e-05, 2.377166564568892e-05, 7.432280198073274e-06, 5.013937674135285e-06]
+        # import pdb; pdb.set_trace()
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        numpy.testing.assert_almost_equal(multiplex_1_score_lst, multiplex_1_score_lst_bak, 5)
 
     def test_airport_minimal_multiplex_no_edges(self):
 
