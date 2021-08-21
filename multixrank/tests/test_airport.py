@@ -26,17 +26,23 @@ class TestAirport(unittest.TestCase):
         self.outdir = os.path.join(self.test_path, 'outdir')
         pathlib.Path(self.outdir).mkdir(exist_ok=True, parents=True)
 
+        self.multiplex_1_lst_bak = ['7', '7', '7', '169', '388', '199', '2', '166', '67', '38', '38', '67', '166', '181',
+                                    '169', '181', '3', '2', '8', '3', '122', '21', '38', '166', '122', '2', '10', '3',
+                                    '17', '10', '122', '67', '181', '10', '433', '5', '326', '403', '307', '309']
+
     def test_airport_minimal(self):
 
         config_path = os.path.join(self.package_path, 'data_example', 'airport', 'config_minimal.yml')
         multixrank_obj = multixrank.Multixrank(config=config_path, wdir=self.wdir_path)
 
         outdir_path = os.path.join(self.test_path, 'outdir', 'ranking_default')
-        outdir_path_bak = os.path.join(self.test_path, 'test_data', 'airport', 'outdir_bak', 'ranking_default')
+        # outdir_path_bak = os.path.join(self.test_path, 'test_data', 'airport', 'outdir_bak', 'ranking_default')
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
+        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
 
     def test_airport_minimal_one_multiplex_fr(self):
 
@@ -62,7 +68,9 @@ class TestAirport(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
+        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
 
     def test_airport_minimal_bipartite3cols(self):
 
@@ -75,7 +83,9 @@ class TestAirport(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
+        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
 
     def test_airport_minimal_multiplex3cols(self):
 
@@ -88,7 +98,9 @@ class TestAirport(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
+        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
 
     def test_airport_minimal_weighted(self):
 
@@ -101,7 +113,9 @@ class TestAirport(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
+        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
 
     def test_airport_minimal_sif_top3(self):
 
@@ -172,14 +186,14 @@ class TestAirport(unittest.TestCase):
         outdir_path_bak = os.path.join(self.test_path, 'test_data', 'airport', 'outdir_bak', 'ranking_default')
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
-        # import pdb; pdb.set_trace()
-        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:20]
-        multiplex_1_bak_lst = ['7', '7', '7', '169', '388', '199', '2', '166', '67', '38', '38', '67', '166', '181', '169', '181', '3', '2', '8', '3']
-        self.assertEqual(multiplex_1_lst, multiplex_1_bak_lst)
         # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
         # self.assertTrue(
         #     filecmp.cmp(os.path.join(outdir_path, 'multiplex_1.tsv'),
         #                 os.path.join(outdir_path_bak, 'multiplex_1.tsv')))
+        # import pdb; pdb.set_trace()
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
+        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
 
     def test_airport_minimal_multiplex_self_loops_false(self):
 
@@ -192,7 +206,9 @@ class TestAirport(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
+        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
 
     def test_airport_minimal_multiplex_self_loops_true(self):
 
