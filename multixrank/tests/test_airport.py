@@ -253,7 +253,12 @@ class TestAirport(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=os.path.dirname(multiplex_1_path))
         # import pdb; pdb.set_trace()
-        self.assertTrue(filecmp.cmp(multiplex_1_path, multiplex_1_bak_path, shallow=True))
+        # self.assertTrue(filecmp.cmp(multiplex_1_path, multiplex_1_bak_path, shallow=True))
+        multiplex_1_df_bak = pandas.read_csv(multiplex_1_bak_path, sep="\t")
+        multiplex_1_df = pandas.read_csv(multiplex_1_path, sep="\t")
+        multiplex_1_score_lst = multiplex_1_df['score'].tolist()
+        multiplex_1_score_lst_bak = multiplex_1_df_bak['score'].tolist()
+        numpy.testing.assert_almost_equal(multiplex_1_score_lst, multiplex_1_score_lst_bak, self.precision)
 
     def test_airport_minimal_bipartite_self_loops_false(self):
 
