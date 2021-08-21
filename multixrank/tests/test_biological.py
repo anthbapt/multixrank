@@ -1,5 +1,9 @@
 import filecmp
 import logging
+
+import numpy
+import pandas
+
 import multixrank
 import os
 import pathlib
@@ -24,6 +28,8 @@ class TestBiological(unittest.TestCase):
 
         self.outdir = os.path.join(self.test_path, 'outdir')
         pathlib.Path(self.outdir).mkdir(exist_ok=True, parents=True)
+
+        self.precision = 6
 
     def test01_config_minimal_default(self):
         """Minimal config to test default/homogeneous parameters"""
@@ -53,7 +59,12 @@ class TestBiological(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_protein_df_bak = pandas.read_csv(os.path.join(outdir_path_bak, "multiplex_protein.tsv"), sep="\t")
+        multiplex_protein_df = pandas.read_csv(os.path.join(outdir_path, "multiplex_protein.tsv"), sep="\t")
+        multiplex_protein_score_lst = multiplex_protein_df['score'].tolist()
+        multiplex_protein_score_lst_bak = multiplex_protein_df_bak['score'].tolist()
+        numpy.testing.assert_almost_equal(multiplex_protein_score_lst, multiplex_protein_score_lst_bak, self.precision)
 
     def test01_selfloops1(self):
 
