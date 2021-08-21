@@ -15,7 +15,7 @@ class Output:
 
         multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'node']].drop_duplicates()
         multiplex_node_prob_zero_df['score'] = 0
-        self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg(stats.gmean).reset_index()
+        self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': stats.gmean}).reset_index()
         self._df = pandas.concat([multiplex_node_prob_zero_df, self._df], axis=0)
         self._df = self._df.drop_duplicates(['multiplex', 'node'], keep='first')
         self._df.sort_values('score', ascending=False, inplace=True)
