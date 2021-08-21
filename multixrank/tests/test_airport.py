@@ -40,13 +40,15 @@ class TestAirport(unittest.TestCase):
         multixrank_obj = multixrank.Multixrank(config=config_path, wdir=self.wdir_path)
 
         outdir_path = os.path.join(self.test_path, 'outdir', 'ranking_default')
-        # outdir_path_bak = os.path.join(self.test_path, 'test_data', 'airport', 'outdir_bak', 'ranking_default')
+        outdir_path_bak = os.path.join(self.test_path, 'test_data', 'airport', 'outdir_bak', 'ranking_default')
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
-        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
         # import pdb; pdb.set_trace()
-        multiplex_1_lst = rwr_df.sort_values(by='score', ascending=False)['node'].tolist()[0:40]
-        self.assertEqual(multiplex_1_lst, self.multiplex_1_lst_bak)
+        multiplex_1_df_bak = pandas.read_csv(os.path.join(outdir_path_bak, "multiplex_1.tsv"), sep="\t")
+        multiplex_1_df = pandas.read_csv(os.path.join(outdir_path, "multiplex_1.tsv"), sep="\t")
+        multiplex_1_score_lst = multiplex_1_df['score'].tolist()
+        multiplex_1_score_lst_bak = multiplex_1_df_bak['score'].tolist()
+        numpy.testing.assert_almost_equal(multiplex_1_score_lst, multiplex_1_score_lst_bak, 5)
 
     def test_airport_minimal_one_multiplex_fr(self):
 
