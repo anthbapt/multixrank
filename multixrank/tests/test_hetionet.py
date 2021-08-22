@@ -32,7 +32,13 @@ class TestHetionet(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_2_path = os.path.join(outdir_path, "multiplex_2.tsv")
+        multiplex_2_path_bak = os.path.join(outdir_path_bak, "multiplex_2.tsv")
+        self.assertTrue(filecmp.cmp(multiplex_2_path, multiplex_2_path_bak))
+        multiplex_3_path = os.path.join(outdir_path, "multiplex_3.tsv")
+        multiplex_3_path_bak = os.path.join(outdir_path_bak, "multiplex_3.tsv")
+        self.assertTrue(filecmp.cmp(multiplex_3_path, multiplex_3_path_bak))
 
     def tearDown(self):
         shutil.rmtree(self.outdir, ignore_errors=True)
