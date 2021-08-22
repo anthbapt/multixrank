@@ -29,7 +29,7 @@ class TestBiological(unittest.TestCase):
         self.outdir = os.path.join(self.test_path, 'outdir')
         pathlib.Path(self.outdir).mkdir(exist_ok=True, parents=True)
 
-        self.precision = 5
+        self.precision = 3
 
     def test01_config_minimal_default(self):
         """Minimal config to test default/homogeneous parameters"""
@@ -38,7 +38,7 @@ class TestBiological(unittest.TestCase):
         multixrank_obj = multixrank.Multixrank(config=config_path, wdir=self.biological_dir_path)
 
         outdir_path = os.path.join(self.test_path, 'outdir', 'ranking_default')
-        outdir_path_bak = os.path.join(self.test_path, 'test_data', 'biological', 'outdir_default')
+        outdir_path_bak = os.path.join(self.test_path, 'test_data', 'biological', 'outdir_ranking01')
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
