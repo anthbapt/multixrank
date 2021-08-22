@@ -30,7 +30,7 @@ class TestAirport(unittest.TestCase):
         self.outdir = os.path.join(self.test_path, 'outdir')
         pathlib.Path(self.outdir).mkdir(exist_ok=True, parents=True)
 
-        self.precision = 7
+        self.precision = 8
 
     def test_airport_minimal(self):
 
