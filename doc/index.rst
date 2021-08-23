@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 =============================================================================================
-MultiXrank - universal MULTIlayer eXploration by RANdom walK with restart
+MultiXrank - Universal Multilayer Exploration by Random Walk with Restart
 =============================================================================================
 
 .. image:: https://img.shields.io/pypi/v/multixrank.svg

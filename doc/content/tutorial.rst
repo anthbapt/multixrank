@@ -74,18 +74,23 @@ The minimal configuration file 'config.yml' looks like this.
     import multixrank
     multixrank_obj = multixrank.Multixrank(config="airport/config_minimal.yml", wdir="airport")
     ranking_df = multixrank_obj.random_walk_rank()
-    multixrank_obj.write_ranking(ranking_df, path="airport_ranking.tsv")
-    multixrank_obj.to_sif(ranking_df, path="airport_seed7_top3.sif", top=3)
+    multixrank_obj.write_ranking(ranking_df, path="output_airport")
+    multixrank_obj.to_sif(ranking_df, path="output_airport/airport_seed7_top3.sif", top=3)
 
-This runs the software and writes the results here:
+This runs the software and writes the results to the output_airport folder:
 
 .. code-block:: bash
 
-    $ head -n 4 airport_ranking.tsv
+    $ ls output_airport/
+    airport_seed7_top3.sif  multiplex_1.tsv  multiplex_2.tsv  multiplex_3.tsv
+
+There is a ranking file for each multiplex:
+
+    $ head -n 4 output_airport/multiplex_1.tsv
     multiplex	node	score
-    1	7	0.24984265999565775
-    3	166	0.0038198804520776
-    3	38	0.0037597000889303313
+    1	7	0.250002565842259
+    1	169	0.0025983048938841304
+    1	199	0.0018837852068513332
 
 The SIF file with the sub-network that includes the top 3 nodes can be opened
 and visualized in Cytoscape (https://cytoscape.org) as in the following figure:
