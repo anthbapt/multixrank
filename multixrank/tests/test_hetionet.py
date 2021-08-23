@@ -39,8 +39,12 @@ class TestHetionet(unittest.TestCase):
         # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
         multiplex_2_path = os.path.join(outdir_path, "multiplex_2.tsv")
         multiplex_2_path_bak = os.path.join(outdir_path_bak, "multiplex_2.tsv")
-        self.assertTrue(filecmp.cmp(multiplex_2_path, multiplex_2_path_bak))
-
+        # self.assertTrue(filecmp.cmp(multiplex_2_path, multiplex_2_path_bak))
+        multiplex_2_df = pandas.read_csv(multiplex_2_path, sep="\t")
+        multiplex_2_df_bak = pandas.read_csv(multiplex_2_path_bak, sep="\t")
+        multiplex_2_score_lst = multiplex_2_df['score'].tolist()
+        multiplex_2_score_lst_bak = multiplex_2_df_bak['score'].tolist()
+        numpy.testing.assert_almost_equal(multiplex_2_score_lst, multiplex_2_score_lst_bak, decimal=7)
 
         multiplex_3_path = os.path.join(outdir_path, "multiplex_3.tsv")
         multiplex_3_path_bak = os.path.join(outdir_path_bak, "multiplex_3.tsv")
