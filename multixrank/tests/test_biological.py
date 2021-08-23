@@ -94,12 +94,12 @@ class TestBiological(unittest.TestCase):
         rwr_df = multixrank_obj.random_walk_rank()
         multixrank_obj.write_ranking(rwr_df, path=outdir_path)
         # import pdb; pdb.set_trace()
-        self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
-        # multiplex_protein_df_bak = pandas.read_csv(os.path.join(outdir_path_bak, "multiplex_protein.tsv"), sep="\t")
-        # multiplex_protein_df = pandas.read_csv(os.path.join(outdir_path, "multiplex_protein.tsv"), sep="\t")
-        # multiplex_protein_score_lst = multiplex_protein_df['score'].tolist()
-        # multiplex_protein_score_lst_bak = multiplex_protein_df_bak['score'].tolist()
-        # numpy.testing.assert_almost_equal(multiplex_protein_score_lst, multiplex_protein_score_lst_bak, self.precision)
+        # self.assertEqual(filecmp.dircmp(outdir_path, outdir_path_bak).diff_files, [])
+        multiplex_protein_df_bak = pandas.read_csv(os.path.join(outdir_path_bak, "multiplex_protein.tsv"), sep="\t")
+        multiplex_protein_df = pandas.read_csv(os.path.join(outdir_path, "multiplex_protein.tsv"), sep="\t")
+        multiplex_protein_score_lst = multiplex_protein_df['score'].tolist()
+        multiplex_protein_score_lst_bak = multiplex_protein_df_bak['score'].tolist()
+        numpy.testing.assert_almost_equal(multiplex_protein_score_lst, multiplex_protein_score_lst_bak, self.precision)
 
     def tearDown(self):
         # shutil.rmtree(self.biological_dir_path, ignore_errors=True)

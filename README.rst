@@ -12,7 +12,7 @@ MultiXrank - Universal Multilayer Exploration by Random Walk with Restart
     :target: https://multixrank-doc.readthedocs.io/en/latest/?badge=latest
     
 .. image:: https://travis-ci.com/anthbapt/multixrank.svg?branch=main
-    :target: https://travis-ci.com/anthbapt/multixrank
+    :target: https://app.travis-ci.com/anthbapt/multixrank
 
 .. image:: https://github.com/anthbapt/multixrank/workflows/CI/badge.svg
     :target: https://github.com/anthbapt/multixrank/actions?query=branch%3Amaster+workflow%3ACI
