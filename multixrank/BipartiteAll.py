@@ -80,6 +80,9 @@ class BipartiteAll:
                             bipartite_layer_networkx = bipartite_layer_obj.networkx
                             bipartite_layer_networkx.remove_edges_from(networkx.selfloop_edges(bipartite_layer_networkx))
                             two_multiplex_nodes = multiplexone_obj1.nodes + multiplexone_obj2.nodes
+                            bipartite_layer_networkx_nodes = bipartite_layer_networkx.nodes
+                            new_bipartite_layer_networkx_nodes = two_multiplex_nodes - bipartite_layer_networkx_nodes
+                            bipartite_layer_networkx.add_nodes_from(new_bipartite_layer_networkx_nodes)
                             B = networkx.to_scipy_sparse_matrix(bipartite_layer_networkx, nodelist=two_multiplex_nodes, format="csr")
 
                             self._bipartite_matrix[i, j] = B[0:len(self.multiplexall_node_list2d[i]), len(self.multiplexall_node_list2d[i])::]

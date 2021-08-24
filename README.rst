@@ -114,6 +114,8 @@ This runs the software and writes the results to the output_airport folder:
 
 There is a ranking file for each multiplex:
 
+.. code-block:: bash
+
     $ head -n 4 output_airport/multiplex_1.tsv
     multiplex	node	score
     1	7	0.250002565842259

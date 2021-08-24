@@ -224,16 +224,21 @@ seed:
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">multixrank</span>
 <span class="n">multixrank_obj</span> <span class="o">=</span> <span class="n">multixrank</span><span class="o">.</span><span class="n">Multixrank</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;airport/config_minimal.yml&quot;</span><span class="p">,</span> <span class="n">wdir</span><span class="o">=</span><span class="s2">&quot;airport&quot;</span><span class="p">)</span>
 <span class="n">ranking_df</span> <span class="o">=</span> <span class="n">multixrank_obj</span><span class="o">.</span><span class="n">random_walk_rank</span><span class="p">()</span>
-<span class="n">multixrank_obj</span><span class="o">.</span><span class="n">write_ranking</span><span class="p">(</span><span class="n">ranking_df</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;airport_ranking.tsv&quot;</span><span class="p">)</span>
-<span class="n">multixrank_obj</span><span class="o">.</span><span class="n">to_sif</span><span class="p">(</span><span class="n">ranking_df</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;airport_seed7_top3.sif&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">multixrank_obj</span><span class="o">.</span><span class="n">write_ranking</span><span class="p">(</span><span class="n">ranking_df</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;output_airport&quot;</span><span class="p">)</span>
+<span class="n">multixrank_obj</span><span class="o">.</span><span class="n">to_sif</span><span class="p">(</span><span class="n">ranking_df</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;output_airport/airport_seed7_top3.sif&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This runs the software and writes the results here:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ head -n <span class="m">4</span> airport_ranking.tsv
+<p>This runs the software and writes the results to the output_airport folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls output_airport/
+airport_seed7_top3.sif  multiplex_1.tsv  multiplex_2.tsv  multiplex_3.tsv
+</pre></div>
+</div>
+<p>There is a ranking file for each multiplex:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ head -n <span class="m">4</span> output_airport/multiplex_1.tsv
 multiplex   node    score
-<span class="m">1</span>   <span class="m">7</span>       <span class="m">0</span>.24984265999565775
-<span class="m">3</span>   <span class="m">166</span>     <span class="m">0</span>.0038198804520776
-<span class="m">3</span>   <span class="m">38</span>      <span class="m">0</span>.0037597000889303313
+<span class="m">1</span>   <span class="m">7</span>       <span class="m">0</span>.250002565842259
+<span class="m">1</span>   <span class="m">169</span>     <span class="m">0</span>.0025983048938841304
+<span class="m">1</span>   <span class="m">199</span>     <span class="m">0</span>.0018837852068513332
 </pre></div>
 </div>
 <p>The SIF file with the sub-network that includes the top 3 nodes can be opened
