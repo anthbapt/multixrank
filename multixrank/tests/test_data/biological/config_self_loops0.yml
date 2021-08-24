@@ -1,0 +1,40 @@
+self_loops: 0
+bipartite:
+    networks/b_disease_protein.tsv: {source: disease, target: protein, graph_type: 01}
+    networks/b_drug_protein.tsv: {source: drug, target: protein, graph_type: 00}
+    networks/b_drug_disease.tsv: {source: drug, target: disease, graph_type: 00}
+seed: seeds.txt
+r: 0.7
+# eta: Restart probability for each multiplex. Must sum up to one.
+eta: [0.5, 0.5, 0]
+#4. Inter multiplex Networks Jump Probability (lambda)
+lamb:
+    - [1/3, 1/3, 1/3]
+    - [1/3, 1/3, 1/3]
+    - [1/3, 1/3, 1/3]
+multiplex:
+    protein:
+        layers:
+            - networks/m01complexes.tsv
+            - networks/m01ppi.tsv
+            - networks/m01reactome.tsv
+        delta: 0.5
+        graph_type: [00, 00, 00]
+        # Restart probabily 3. Layers Restart Probability (tau)
+        tau: [1/3, 1/3, 1/3]
+    disease:
+        layers:
+            - networks/m02disease_disease_final.tsv
+        delta: 0
+        graph_type: [00]
+        tau: [1]
+    drug:
+        layers:
+            - networks/m03clinical_drug_interactions.tsv
+            - networks/m03experimental_drug_combinations.tsv
+            - networks/m03predicted_drug_combinations.tsv
+            - networks/m03drugbank-chem_chem.tsv
+        delta: 0.5
+        graph_type: [00, 00, 00, 00]
+        tau: [1/4, 1/4, 1/4, 1/4]
+

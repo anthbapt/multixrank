@@ -1,10 +1,10 @@
-.. metabarcoding documentation master file, created by
+.. multixrank documentation master file, created by
    sphinx-quickstart on Tue Oct 31 20:17:07 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 =============================================================================================
-MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart
+MultiXrank - Universal Multilayer Exploration by Random Walk with Restart
 =============================================================================================
 
 .. image:: https://img.shields.io/pypi/v/multixrank.svg
@@ -13,19 +13,17 @@ MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart
 .. image:: https://img.shields.io/pypi/pyversions/multixrank.svg
     :target: https://www.python.org
 
-.. image:: https://readthedocs.org/projects/multixrank/badge/?version=latest
-    :target: http://multixrank.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/multixrank-doc/badge/?version=latest
+    :target: https://multixrank-doc.readthedocs.io/en/latest/?badge=latest
+    
+.. image:: https://github.com/anthbapt/multixrank/workflows/CI/badge.svg
+    :target: https://github.com/anthbapt/multixrank/actions?query=branch%3Amaster+workflow%3ACI
+    
+.. image:: https://travis-ci.com/anthbapt/multixrank.svg?branch=main
+    :target: https://app.travis-ci.com/anthbapt/multixrank
 
-.. image:: https://github.com/aitgon/multixrank/workflows/CI/badge.svg
-    :target: https://github.com/aitgon/multixrank/actions?query=branch%3Amaster+workflow%3ACI
 
-.. image:: https://travis-ci.org/aitgon/multixrank.svg?branch=master
-    :target: https://travis-ci.org/aitgon/multixrank
-
-.. image:: https://codecov.io/gh/aitgon/multixrank/branch/master/multigraph/badge.svg
-   :target: https://codecov.io/gh/aitgon/multixrank
-
-MultiXrank is a Python package for the exploration of heterogeneous multilayer networks, with random walk with restart method. It permits prioritization of nodes between full heterogeneous networks, whatever their complexities.
+MultiXrank is a Python package implementing a random walk with restart approach to explore multilayer networks. MultiXrank allows node prioritization from universal and heterogeneous multilayer networks composed on any combination of network layers.
 
 Table of Contents
 =================

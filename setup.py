@@ -90,6 +90,6 @@ setup(
     packages=find_packages(),
     package_dir={'multixrank': 'multixrank'},
     package_data={'multixrank': data_example_file_list},
-    install_requires=['networkx', 'numpy', 'pandas', 'psutil', 'pyyaml', 'scipy'],
+    install_requires=['networkx==2.5', 'numpy', 'pandas', 'psutil', 'pyyaml', 'scipy'],
     entry_points={},
 )

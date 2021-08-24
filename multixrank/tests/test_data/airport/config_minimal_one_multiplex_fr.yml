@@ -1,0 +1,8 @@
+multiplex:
+    1:
+        layers:
+            - multiplex/1/FR26.tsv
+            - multiplex/1/FR3.tsv
+            - multiplex/1/FR7.tsv
+seed:
+    seeds.txt

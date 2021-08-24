@@ -1,5 +1,5 @@
 =============================================================================================
-MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart
+MultiXrank - Universal Multilayer Exploration by Random Walk with Restart
 =============================================================================================
 
 .. image:: https://img.shields.io/pypi/v/multixrank.svg
@@ -8,23 +8,21 @@ MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart
 .. image:: https://img.shields.io/pypi/pyversions/multixrank.svg
     :target: https://www.python.org
 
-.. image:: https://readthedocs.org/projects/multixrank/badge/?version=latest
-    :target: http://multixrank.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/multixrank-doc/badge/?version=latest
+    :target: https://multixrank-doc.readthedocs.io/en/latest/?badge=latest
+    
+.. image:: https://travis-ci.com/anthbapt/multixrank.svg?branch=main
+    :target: https://app.travis-ci.com/anthbapt/multixrank
 
-.. image:: https://github.com/aitgon/multixrank/workflows/CI/badge.svg
-    :target: https://github.com/aitgon/multixrank/actions?query=branch%3Amaster+workflow%3ACI
-
-.. image:: https://travis-ci.org/aitgon/multixrank.svg?branch=master
-    :target: https://travis-ci.org/aitgon/multixrank
-
-.. image:: https://codecov.io/gh/aitgon/multixrank/branch/master/multigraph/badge.svg
-   :target: https://codecov.io/gh/aitgon/multixrank
+.. image:: https://github.com/anthbapt/multixrank/workflows/CI/badge.svg
+    :target: https://github.com/anthbapt/multixrank/actions?query=branch%3Amaster+workflow%3ACI
+    
 
 MultiXrank is a Python package for the exploration of heterogeneous multilayer networks, with random walk with restart method. It permits prioritization of nodes between full heterogeneous networks, whatever their complexities.
 If you use MultiXrank in scientific works, **please cite the following article**:
 
 **Baptista, A., González, A., Baudot, A.**.
-`Universal Multilayer Network Exploration by Random Walk with Restart`. In preparation.
+`Universal Multilayer Network Exploration by Random Walk with Restart`, arXiv:2107.04565.
 
 Commands for a quick installation:
 
@@ -103,18 +101,25 @@ The minimal configuration file 'config.yml' looks like this.
 
     import multixrank
     multixrank_obj = multixrank.Multixrank(config="airport/config_minimal.yml", wdir="airport")
-    ranking=multixrank_obj.seed_rank(path="ranking.tsv")
+    ranking_df = multixrank_obj.random_walk_rank()
+    multixrank_obj.write_ranking(ranking_df, path="output_airport")
+    multixrank_obj.to_sif(ranking_df, path="output_airport/airport_seed7_top3.sif", top=3)
 
-This runs the software and writes the results here:
+This runs the software and writes the results to the output_airport folder:
 
 .. code-block:: bash
 
-    $ head -n 4 ranking.tsv
-    multiplex	node	prob
-    1	7	0.24984265999565775
-    3	166	0.0038198804520776
-    3	38	0.0037597000889303313
+    $ ls output_airport/
+    airport_seed7_top3.sif  multiplex_1.tsv  multiplex_2.tsv  multiplex_3.tsv
 
-The `MultiXrank documentation <http://multixrank.readthedocs.org/>`_ is hosted at ReadTheDocs.
+There is a ranking file for each multiplex:
+
+    $ head -n 4 output_airport/multiplex_1.tsv
+    multiplex	node	score
+    1	7	0.250002565842259
+    1	169	0.0025983048938841304
+    1	199	0.0018837852068513332
+
+The `MultiXrank documentation <https://multixrank-doc.readthedocs.io/>`_ is hosted at ReadTheDocs.
 
 MultiXrank is maintained by Anthony Baptista (anthony dot baptista at univ-amu dot fr) and Aitor González (aitor dot gonzalez at univ-amu dot fr)
