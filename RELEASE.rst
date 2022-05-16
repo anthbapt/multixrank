@@ -1,3 +1,8 @@
+**Changes In Version 0.1 (May 16, 2022)**
+
+- BUG Fixed test lambda parameter
+- BUG directed networks fixed
+
 **Changes In Version 0.0.8 (Jul 9, 2021)**
 
 - BUG Fixed default parameters and lambda parameter for one-multiplex-only system
