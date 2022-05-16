@@ -83,10 +83,11 @@ class BipartiteAll:
                             bipartite_layer_networkx_nodes = bipartite_layer_networkx.nodes
                             new_bipartite_layer_networkx_nodes = two_multiplex_nodes - bipartite_layer_networkx_nodes
                             bipartite_layer_networkx.add_nodes_from(new_bipartite_layer_networkx_nodes)
-                            B = networkx.to_scipy_sparse_matrix(bipartite_layer_networkx, nodelist=two_multiplex_nodes, format="csr")
-
-                            self._bipartite_matrix[i, j] = B[0:len(self.multiplexall_node_list2d[i]), len(self.multiplexall_node_list2d[i])::]
-                            self._bipartite_matrix[j, i] = B[len(self.multiplexall_node_list2d[i])::, 0:len(self.multiplexall_node_list2d[i])]
+                            B = networkx.to_scipy_sparse_matrix(bipartite_layer_networkx, nodelist=two_multiplex_nodes, format="csr")                              
+                                
+                            self._bipartite_matrix[j, i] = B[0:len(self.multiplexall_node_list2d[i]), len(self.multiplexall_node_list2d[i])::].T # changed
+                            if bipartite_layer_networkx.is_directed() == False : # changed
+                            	self._bipartite_matrix[i, j] = self._bipartite_matrix[j, i].T # changed
             for i in range(len(self.multiplex_layer_count_list2d)):
                 for j in range(len(self.multiplex_layer_count_list2d)):
                     if i != j:

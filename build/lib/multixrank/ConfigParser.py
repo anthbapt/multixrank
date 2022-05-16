@@ -66,6 +66,29 @@ class ConfigParser:
         #######################################################################
 
         self.seed_obj = self.__parse_seed()
+        
+        #######################################################################
+        #
+        # Parameter 'delta' check
+        #
+        #######################################################################
+
+        if 'delta' in self.config_dic:  # user defined (changed)
+            delta_lst = [float(Fraction(delta)) for delta in self.config_dic['delta']] # changed
+            Parameters.check_eta(delta_lst , len(self.multiplexall_obj.multiplex_tuple)) # changed
+            
+            
+            
+        ###################################################################
+        #
+        # Parameter 'lamb' check
+        #
+        ###################################################################
+
+        if 'lamb' in self.config_dic:  # user defined (changed)
+            lamb = numpy.array(self.config_dic['lamb'])
+            Parameters.check_lamb(lamb , len(self.multiplexall_obj.multiplex_tuple)) # changed
+                
 
         #######################################################################
         #
@@ -75,12 +98,9 @@ class ConfigParser:
 
         if 'eta' in self.config_dic:  # user defined
             eta_lst = [float(Fraction(eta)) for eta in self.config_dic['eta']]
+            Parameters.check_eta(eta_lst , len(self.multiplexall_obj.multiplex_tuple)) # changed
         else:  # default eta
-            # number of multiplexes in the system, eg 3 for airport and biological
-            # and 9 for hetionet
             n = len(self.multiplexall_obj.multiplex_tuple)
-            # List of number of seeds for each multiplex
-            # eg. [1,0,0] for biological
             alpha = [len(x) for x in self.seed_obj.multiplex_seed_list2d]
             # Generate eta default
             eta_lst = ParameterEta(n, alpha).vect_X().tolist()
@@ -105,8 +125,6 @@ class ConfigParser:
 
         if not ('bipartite' in self.config_dic):
 
-            # logger.error("No required 'bipartite' field found in config file: {}".format(self.config_path))
-            # sys.exit(1)
             return BipartiteAll({}, multiplexall=self.multiplexall_obj)
 
         config_bipartite_dic = self.config_dic['bipartite']
@@ -171,6 +189,7 @@ class ConfigParser:
                 tau_lst  = [float(Fraction(tau)) for tau in config_multiplex_dic[multiplex_key]['tau']]
             Parameters.check_tau(tau_lst , len(layer_key_tuple))
             logger.debug("Multiplex '{}'. Parameter 'tau' is equal: {}".format(multiplex_key, tau_lst))
+
 
             ###################################################################
             #
@@ -237,7 +256,7 @@ class ConfigParser:
         if 'r' in self.config_dic:
             r = float(self.config_dic['r'])
         logger.debug("r is equal to: {}".format(r))
-
+        
         lamb_arr = None
         if 'lamb' in self.config_dic:  # used-defined lambda
             lamb_2dlst = [[float(Fraction(j)) for j in i] for i in self.config_dic['lamb']]
@@ -248,7 +267,6 @@ class ConfigParser:
             # List of number of layers in each multiplex
             multiplex_layer_count = [len(multiplex_obj.layer_tuple) for multiplex_obj in
              self.multiplexall_obj.multiplex_tuple]
-            # layer_count_per_multilex_lst =
             if multiplex_count == 1:  # One multiplex only
                 lamb_arr = [[0]]
             else:  # More than multiplex
@@ -267,7 +285,5 @@ class ConfigParser:
 
         seed_path = os.path.join(self.wdir, self.config_dic['seed'])
         seed_obj = Seed(path=seed_path, multiplexall=self.multiplexall_obj)
-        # self.seed_label_list = seed_obj.get_seed_list()
-        # self.seeds_multiplex_ok_2dlist = seed_obj.get_multiplex_seed_2dlist()
 
         return seed_obj

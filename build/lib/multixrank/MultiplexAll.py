@@ -51,5 +51,5 @@ class MultiplexAll:
 
         if self._supra_adj_matrix_list == []:
             for i, multiplex_obj in enumerate(self.multiplex_tuple):
-                self._supra_adj_matrix_list.append(multiplex_obj.supra_adj_matrixcoo)
+                self._supra_adj_matrix_list.append(multiplex_obj.supra_adj_matrixcoo.T) # changed
         return self._supra_adj_matrix_list

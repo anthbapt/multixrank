@@ -45,12 +45,12 @@ class Bipartite:
 
         if self._networkx is None:
 
-            names = ['col1', 'col2']  # layer file column labels
+            names = ['col2', 'col1']  # layer file column labels changed
             dtype = str
             edge_attr = ['network_key']
             usecols = [0, 1]  # two cols like in unweighted
             if self.graph_type[1] == '1':  # weighted layer
-                names = ['col1', 'col2', 'weight']
+                names = ['col2', 'col1', 'weight'] # changed
                 dtype = {'col1': str, 'col2': str, 'weight': numpy.float64}
                 edge_attr = ['network_key', 'weight']
                 usecols = [0, 1, 2]  # two cols like in unweighted
@@ -67,8 +67,8 @@ class Bipartite:
             multiplex_layer_edge_list_df['network_key'] = self.key
 
             self._networkx = networkx.from_pandas_edgelist(
-                df=multiplex_layer_edge_list_df, source='col1', target='col2',
-                edge_attr=edge_attr, create_using=networkx_graph_obj)
+                df=multiplex_layer_edge_list_df, source='col2', target='col1',
+                edge_attr=edge_attr, create_using=networkx_graph_obj) # changed
 
             self._networkx.remove_edges_from(networkx.selfloop_edges(self._networkx))
 
