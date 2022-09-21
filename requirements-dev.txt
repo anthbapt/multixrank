@@ -4,7 +4,7 @@ numpy
 pandas
 pygments
 pyyaml
-scipy
+scipy==1.8
 sphinx
 sphinx_rtd_theme
 twine
