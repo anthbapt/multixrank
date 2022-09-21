@@ -33,7 +33,7 @@ install:
   # Replace dep1 dep2 ... with your dependencies
   - conda create -q -n tests-environment
   - conda activate tests-environment
-  - conda install --file requirements.txt
+  - pip install --file requirements.txt
   - pip install coverage
   - python3 setup.py install
 
