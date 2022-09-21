@@ -16,9 +16,6 @@ MultiXrank - Universal Multilayer Exploration by Random Walk with Restart
 .. image:: https://readthedocs.org/projects/multixrank-doc/badge/?version=latest
     :target: https://multixrank-doc.readthedocs.io/en/latest/?badge=latest
     
-.. image:: https://travis-ci.com/anthbapt/multixrank.svg?branch=master
-    :target: https://app.travis-ci.com/anthbapt/multixrank
-    
 .. image:: https://github.com/anthbapt/multixrank/workflows/CI/badge.svg
     :target: https://github.com/anthbapt/multixrank/actions?query=branch%3Amaster+workflow%3ACI
     
