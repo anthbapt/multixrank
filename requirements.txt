@@ -1,5 +1,5 @@
 networkx==2.5
-scipy
+tardyb scipy==1.8
 numpy
 pandas
 pyyaml
