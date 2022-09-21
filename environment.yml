@@ -1,6 +1,7 @@
 name: multixrank
 channels:
   - anaconda
+  - pyston
 dependencies:
   - pip
   - pip:
