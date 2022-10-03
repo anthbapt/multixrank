@@ -23,6 +23,9 @@ Baptista, A., Gonzalez, A. & Baudot, A. Universal multilayer network exploration
 
 https://doi.org/10.1038/s42005-022-00937-9
 
+The scripts used in the paper and adaptable for your own applications of MultiXrank are available there: https://github.com/anthbapt/multixrank-tools
+
+
 Commands for a quick installation:
 
 .. code-block:: bash
