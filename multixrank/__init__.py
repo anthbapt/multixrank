@@ -152,15 +152,22 @@ class Multixrank(object):
 
         return rwr_ranking_df
 
-    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str, top: int=None, degree: bool=False):
+    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str, top: int=None, aggregation: str="geometric mean", degree: bool=False):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
 
         Args:
             rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score, which is the output of the random_walk_rank function
             path (str): Path to the SIF file
             top (int): Top nodes based on the random walk score to be included in the SIF file
+            aggregation (str): One of "none", "geometric mean" or "sum"
         """
-        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top)
+
+        if not (aggregation in ['none', 'geometric mean', 'sum']):
+            logger.error('Aggregation parameter must take one of these values: "none", "geometric mean" or "sum". '
+                         'Current value: {}'.format(aggregation))
+            sys.exit(1)
+        
+        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, aggregation=aggregation)
         output_obj.to_tsv(outdir=path, degree=degree)
 
     def to_sif(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None):
