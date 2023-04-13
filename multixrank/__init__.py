@@ -167,16 +167,17 @@ class Multixrank(object):
                          'Current value: {}'.format(aggregation))
             sys.exit(1)
         
-        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, aggregation=aggregation)
+        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type="per layer", aggregation=aggregation)
         output_obj.to_tsv(outdir=path, degree=degree)
 
-    def to_sif(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, aggregation: str = 'geometric mean'):
+    def to_sif(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, top_type: str = 'per layer', aggregation: str = 'geometric mean'):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
 
         Args:
             rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score, which is the output of the random_walk_rank function
             path (str): Path to the TSV file with the random walk results
             top (int): Top nodes based on the random walk score to be included in the TSV file
+            top_type (str): "per layer" (top nodes for each layer) or "all" (top nodes any layer)
             aggregation (str): One of "none", "geometric mean" or "sum"
         """
 
@@ -185,7 +186,12 @@ class Multixrank(object):
                          'Current value: {}'.format(aggregation))
             sys.exit(1)
 
-        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, aggregation=aggregation)
+        if not (top_type in ['per layer', 'all']):
+            logger.error('top_type parameter must take one of these values: "per layer" or "all". '
+                         'Current value: {}'.format(top_type))
+            sys.exit(1)
+        
+        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type=top_type, aggregation=aggregation)
         pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
         output_obj.to_sif(path=path, bipartiteall=self.bipartiteall_obj)
 

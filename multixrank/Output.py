@@ -6,7 +6,7 @@ from scipy.stats import stats
 
 class Output:
 
-    def __init__(self, rwr_df, multiplexall, top: int, aggregation: str):
+    def __init__(self, rwr_df, multiplexall, top: int, top_type: str, aggregation: str):
 
         self.rwr_result_list = rwr_df
         self.multiplexall = multiplexall
@@ -44,7 +44,10 @@ class Output:
         #######################################################################
 
         if not (top is None):
-            self._df = self._df.groupby('multiplex').head(top)
+            if (top_type == "per layer"):
+                self._df = self._df.groupby('multiplex').head(top)
+            if (top_type == "all"):
+                self._df = self._df.head(top)
 
     def to_sif(self, bipartiteall, path: str):
         pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
