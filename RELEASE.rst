@@ -6,7 +6,7 @@
 	* 'gmean': geometric mean, use by default and the only defined for multiXrank < v.0.2
 	* 'mean': arithmetic mean
 	* 'hmean': harmonic mean
-    * 'sum': sum of nodes score through each layer
+    	* 'sum': sum of nodes score through each layer
 	* 'nomean': output scores of every layers without mean
 - support personalised pagerank and pagerank methods
 
