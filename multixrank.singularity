@@ -14,12 +14,12 @@ $ sudo singularity build multixrank.sif multixrank.def
 %post
 apt-get update && apt-get install -y rsync gcc
 /opt/conda/bin/conda create --name multixrank python=3.10 -y
-/opt/conda/envs/multixrank/bin/pip install networkx==2.5.1
-/opt/conda/envs/multixrank/bin/pip install numpy==1.20.2
-/opt/conda/envs/multixrank/bin/pip install pandas==1.2.4
-/opt/conda/envs/multixrank/bin/pip install psutil==5.8.0
-/opt/conda/envs/multixrank/bin/pip install PyYAML==5.4.1
-/opt/conda/envs/multixrank/bin/pip install scipy==1.6.2
+/opt/conda/envs/multixrank/bin/pip install networkx==3.1
+/opt/conda/envs/multixrank/bin/pip install numpy==1.25.3
+/opt/conda/envs/multixrank/bin/pip install pandas==2.0.3
+/opt/conda/envs/multixrank/bin/pip install psutil==5.9.0
+/opt/conda/envs/multixrank/bin/pip install PyYAML==6.0
+/opt/conda/envs/multixrank/bin/pip install scipy==1.11.1
 
 %environment
 export LC_ALL=C

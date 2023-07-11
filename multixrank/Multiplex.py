@@ -94,8 +94,8 @@ class Multiplex:
             if (L != 1):
                 # for i in range(self.multiplex_layer_count_2dlist[k]):
                 for i, layer_obj in enumerate(self.layer_tuple):
-                    # Adjacency_layer = networkx.to_scipy_sparse_matrix(Layers[i], nodelist=nodes_name, format="coo")
-                    self._supra_adj_matrixcoo = networkx.to_scipy_sparse_matrix(layer_obj.networkx, nodelist=self.nodes, format="coo")
+                    # Adjacency_layer = networkx.to_scipy_sparse_array(Layers[i], nodelist=nodes_name, format="coo")
+                    self._supra_adj_matrixcoo = networkx.to_scipy_sparse_array(layer_obj.networkx, nodelist=self.nodes, format="coo")
                     mask[i, i] = compt
                     compt += 1
                     pieces.append((1 - self.delta) * self._supra_adj_matrixcoo)
@@ -115,7 +115,7 @@ class Multiplex:
                 self._supra_adj_matrixcoo = scipy.sparse.bmat(temp, format="coo")
             else:
                 layer_obj = self.layer_tuple[0]
-                self._supra_adj_matrixcoo = networkx.to_scipy_sparse_matrix(layer_obj.networkx,
+                self._supra_adj_matrixcoo = networkx.to_scipy_sparse_array(layer_obj.networkx,
                                                                             nodelist=self.nodes,
                                                                             format="coo")
         return self._supra_adj_matrixcoo

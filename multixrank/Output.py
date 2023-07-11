@@ -1,7 +1,7 @@
 import os
 import pandas
 import pathlib
-from scipy.stats import stats
+from scipy.stats import mstats
 
 
 class Output:
@@ -23,10 +23,10 @@ class Output:
         multiplex_node_prob_zero_df['score'] = 0
 
         if (self.aggregation == "geometric mean"):
-            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': stats.gmean}).reset_index()
-        if (self.aggregation == "sum"):
-            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': sum}).reset_index()
-        if (self.aggregation == "none"):
+            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.gmean}).reset_index()
+        elif (self.aggregation == "sum"):
+            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': np.sum}).reset_index()
+        elif (self.aggregation == "none"):
             self._df = (self._df.loc[self._df.score > 0])
         
         self._df = pandas.concat([multiplex_node_prob_zero_df, self._df], axis=0)
