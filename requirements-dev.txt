@@ -1,10 +1,10 @@
 coverage
-networkx==2.5
+networkx
 numpy
 pandas
 pygments
 pyyaml
-scipy==1.8
+scipy
 sphinx
 sphinx_rtd_theme
 twine
