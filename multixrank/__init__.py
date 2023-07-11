@@ -1,4 +1,4 @@
-__version__ = "0.1"
+__version__ = "0.2"
 
 """
 MultiXrank
@@ -152,25 +152,25 @@ class Multixrank(object):
 
         return rwr_ranking_df
 
-    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str, top: int=None, aggregation: str="geometric mean", degree: bool=False):
+    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, aggregation: str = "gmean", degree: bool = False):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
 
         Args:
             rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score, which is the output of the random_walk_rank function
             path (str): Path to the SIF file
             top (int): Top nodes based on the random walk score to be included in the SIF file
-            aggregation (str): One of "none", "geometric mean" or "sum"
+            aggregation (str): One of "nomean", "gmean", "hmean", "mean", or "sum"
         """
 
-        if not (aggregation in ['none', 'geometric mean', 'sum']):
-            logger.error('Aggregation parameter must take one of these values: "none", "geometric mean" or "sum". '
+        if not (aggregation in ['nomean', 'gmean', 'hmean', 'mean', 'sum']):
+            logger.error('Aggregation parameter must take one of these values: "nomean", "gmean", "hmean", "mean", or "sum". '
                          'Current value: {}'.format(aggregation))
             sys.exit(1)
         
-        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type="per layer", aggregation=aggregation)
+        output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type="layered", aggregation=aggregation)
         output_obj.to_tsv(outdir=path, degree=degree)
 
-    def to_sif(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, top_type: str = 'per layer', aggregation: str = 'geometric mean'):
+    def to_sif(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, top_type: str = 'layered', aggregation: str = 'gmean'):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
 
         Args:
@@ -181,13 +181,13 @@ class Multixrank(object):
             aggregation (str): One of "none", "geometric mean" or "sum"
         """
 
-        if not (aggregation in ['none', 'geometric mean', 'sum']):
-            logger.error('Aggregation parameter must take one of these values: "none", "geometric mean" or "sum". '
+        if not (aggregation in ['nomean', 'gmean', 'hmean', 'mean', 'sum']):
+            logger.error('Aggregation parameter must take one of these values: "nomean", "gmean", "hmean", "mean", or "sum". '
                          'Current value: {}'.format(aggregation))
             sys.exit(1)
 
-        if not (top_type in ['per layer', 'all']):
-            logger.error('top_type parameter must take one of these values: "per layer" or "all". '
+        if not (top_type in ['layered', 'all']):
+            logger.error('top_type parameter must take one of these values: "layered" or "all". '
                          'Current value: {}'.format(top_type))
             sys.exit(1)
         

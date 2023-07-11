@@ -14,24 +14,27 @@ class Output:
         self._df = rwr_df
 
         self.aggregation = aggregation
-
-        if (self.aggregation != "none"):
-            multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'node']].drop_duplicates()
-        if (self.aggregation == "none"):
+        if (self.aggregation == "nomean"):
             multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'layer', 'node']]
-
+        else:
+            multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'node']].drop_duplicates()
+        
         multiplex_node_prob_zero_df['score'] = 0
 
-        if (self.aggregation == "geometric mean"):
+        if (self.aggregation == "gmean"):
             self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.gmean}).reset_index()
+        elif (self.aggregation == "hmean"):
+            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.hmean}).reset_index()
+        elif (self.aggregation == "mean"):
+            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.tmean}).reset_index()
         elif (self.aggregation == "sum"):
             self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': np.sum}).reset_index()
-        elif (self.aggregation == "none"):
+        elif (self.aggregation == "nomean"):
             self._df = (self._df.loc[self._df.score > 0])
         
         self._df = pandas.concat([multiplex_node_prob_zero_df, self._df], axis=0)
 
-        if (self.aggregation != "none"):
+        if (self.aggregation != "nomean"):
             self._df = self._df.drop_duplicates(['multiplex', 'node'], keep='first')
             self._df.sort_values('score', ascending=False, inplace=True)
         else:
@@ -44,7 +47,7 @@ class Output:
         #######################################################################
 
         if not (top is None):
-            if (top_type == "per layer"):
+            if (top_type == "layered"):
                 self._df = self._df.groupby('multiplex').head(top)
             if (top_type == "all"):
                 self._df = self._df.head(top)
