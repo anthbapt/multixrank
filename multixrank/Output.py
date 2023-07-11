@@ -6,19 +6,36 @@ from scipy.stats import mstats
 
 class Output:
 
-    def __init__(self, rwr_df, multiplexall, top: int):
+    def __init__(self, rwr_df, multiplexall, top: int, top_type: str, aggregation: str):
 
         self.rwr_result_list = rwr_df
         self.multiplexall = multiplexall
 
         self._df = rwr_df
 
-        multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'node']].drop_duplicates()
+        self.aggregation = aggregation
+
+        if (self.aggregation != "none"):
+            multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'node']].drop_duplicates()
+        if (self.aggregation == "none"):
+            multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'layer', 'node']]
+
         multiplex_node_prob_zero_df['score'] = 0
-        self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.gmean}).reset_index()
+
+        if (self.aggregation == "geometric mean"):
+            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.gmean}).reset_index()
+        elif (self.aggregation == "sum"):
+            self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': np.sum}).reset_index()
+        elif (self.aggregation == "none"):
+            self._df = (self._df.loc[self._df.score > 0])
+        
         self._df = pandas.concat([multiplex_node_prob_zero_df, self._df], axis=0)
-        self._df = self._df.drop_duplicates(['multiplex', 'node'], keep='first')
-        self._df.sort_values('score', ascending=False, inplace=True)
+
+        if (self.aggregation != "none"):
+            self._df = self._df.drop_duplicates(['multiplex', 'node'], keep='first')
+            self._df.sort_values('score', ascending=False, inplace=True)
+        else:
+            self._df.sort_values(by=['multiplex', 'score'], ascending=[True,False], inplace=True)
 
         #######################################################################
         #
@@ -27,7 +44,10 @@ class Output:
         #######################################################################
 
         if not (top is None):
-            self._df = self._df.groupby('multiplex').head(top)
+            if (top_type == "per layer"):
+                self._df = self._df.groupby('multiplex').head(top)
+            if (top_type == "all"):
+                self._df = self._df.head(top)
 
     def to_sif(self, bipartiteall, path: str):
         pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
