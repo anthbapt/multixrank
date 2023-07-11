@@ -31,7 +31,6 @@ Commands for a quick installation:
 
     conda create --name multixrank python=3.10 -y
     python3 -m pip install multixrank
-    python3 -m pip install scipy==1.8
 
 Commands for a quick working example in the python console:
 
