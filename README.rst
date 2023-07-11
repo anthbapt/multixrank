@@ -125,4 +125,4 @@ There is a ranking file for each multiplex:
 
 The `MultiXrank documentation <https://multixrank-doc.readthedocs.io/>`_ is hosted at ReadTheDocs.
 
-MultiXrank is maintained by Anthony Baptista (anthony dot baptista at qmul dot ac dot uk) and Aitor González (aitor dot gonzalez at univ-amu dot fr)
+MultiXrank is maintained by Anthony Baptista (anthony dot baptista at qmul dot ac dot uk)
