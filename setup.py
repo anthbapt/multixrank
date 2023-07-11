@@ -2,7 +2,7 @@
 
 __author__ = "Anthony Baptista, Aitor González, Anaïs Baudot"
 __copyright__ = "Copyright 2021, Anthony Baptista, Aitor González, Anaïs Baudot"
-__email__ = "anthony.baptista@univ-amu.fr, aitor.gonzalez@univ-amu.fr"
+__email__ = "anthony.baptista@qmul.ac.uk, aitor.gonzalez@univ-amu.fr"
 __license__ = "MIT"
 
 import codecs
@@ -31,8 +31,8 @@ def get_version(rel_path):
     else:
         raise RuntimeError("Unable to find version string.")
 
-if sys.version_info < (3, 6):
-    print("At least Python 3.6 is required.\n", file=sys.stderr)
+if sys.version_info < (3, 7):
+    print("At least Python 3.7 is required.\n", file=sys.stderr)
     exit(1)
 
 try:
@@ -80,7 +80,7 @@ data_example_file_list = data_files_to_list('multixrank/data_example')
 setup(
     name='multixrank',
     version=get_version("multixrank/__init__.py"),
-    description="MultiXrank - heterogeneous MULTIlayer eXploration by RANdom walK with restart. "
+    description="MultiXrank - Universal Multilayer Exploration by Random Walk with Restart. "
                 "MultiXrank is a Python package for the exploration of heterogeneous multilayer networks, with random walk with restart method. It permits prioritization of nodes between full heterogeneous networks, whatever their complexities.",
     author=author,
     author_email=email,
