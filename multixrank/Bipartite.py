@@ -49,14 +49,14 @@ class Bipartite:
             dtype = str
             edge_attr = ['network_key']
             usecols = [0, 1]  # two cols like in unweighted
-            if self.graph_type[1] == '1':  # weighted layer
+            if self.graph_type[1] == '1':  # unweighted/weighted layer (0/1)
                 names = ['col2', 'col1', 'weight'] # changed
                 dtype = {'col1': str, 'col2': str, 'weight': numpy.float64}
                 edge_attr = ['network_key', 'weight']
                 usecols = [0, 1, 2]  # two cols like in unweighted
 
             networkx_graph_obj = networkx.Graph()  # layer file column labels
-            if self.graph_type[0] == '1':  # directed layer
+            if self.graph_type[0] == '1':  # undirected/directed layer (0/1)
                 networkx_graph_obj = networkx.DiGraph()
 
             multiplex_layer_edge_list_df = pandas.read_csv(self.abspath, sep="\t", header=None, names=names, dtype=dtype, usecols=usecols)

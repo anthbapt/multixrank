@@ -9,6 +9,7 @@ See https://multixrank.readthedocs.com for complete documentation.
 
 import numpy
 import os
+import copy
 import pandas
 import pathlib
 import shutil
@@ -27,7 +28,7 @@ class Multixrank(object):
     """Main class to run the random walk with restart in universal multiplex networks"""
 
 
-    def __init__(self, config: str, wdir: str):
+    def __init__(self, config: str, wdir: str, pr):
         """
         Constructs an object for the random walk with restart.
 
@@ -44,7 +45,7 @@ class Multixrank(object):
 
         config_parser_obj = ConfigParser(config=config, wdir=wdir)
         config_parser_obj.parse()
-
+        self.pr = pr
         self.wdir = os.path.join(os.getcwd(), wdir)
 
         if not os.path.isdir(self.wdir):
@@ -80,7 +81,6 @@ class Multixrank(object):
 
         self.multiplex_layer_count_list = [len(multiplexone_obj.layer_tuple) for multiplexone_obj in multiplexall_obj.multiplex_tuple]
 
-        # self.multiplexall_node_2dlist = config_parser_obj.multiplexall_node_list2d
         self.multiplexall_node_list2d = [multiplexone_obj.nodes for multiplexone_obj in multiplexall_obj.multiplex_tuple]
 
         # self. N nb of nodes in each multiplex
@@ -92,8 +92,14 @@ class Multixrank(object):
         # seed object from config_parser and properties
         #
         #######################################################################
-
-        self.seed_obj = config_parser_obj.seed_obj
+        if type(self.pr) == type(None):
+            self.seed_obj = config_parser_obj.seed_obj
+        else:
+            N = copy.deepcopy(self.multiplexall_node_count_list)
+            N.insert(0,0)
+            L = self.multiplex_layer_count_list
+            temp = [numpy.repeat((self.pr[numpy.sum(N[:i]):numpy.sum(N[:i+1])]/L[i-1]),L[i-1]) for i in range(1,len(L)+1)]
+            self.pr = numpy.concatenate(temp)
 
     # 1.3.3 :
     def __random_walk_restart(self, prox_vector, transition_matrixcoo, r):
@@ -144,8 +150,10 @@ class Multixrank(object):
         transition_matrixcoo = transition_matrix_obj.transition_matrixcoo
 
         # Get initial seed probability distribution
-        prox_vector, seed_score = self.seed_obj.get_seed_scores(transition=transition_matrixcoo)
-        # import pdb; pdb.set_trace()
+        if type(self.pr) == type(None):
+            prox_vector, seed_score = self.seed_obj.get_seed_scores(transition=transition_matrixcoo)
+        else:
+            prox_vector = self.pr
         # Run RWR algorithm
         rwr_ranking_lst = self.__random_walk_restart(prox_vector, transition_matrixcoo, self.r)
         rwr_ranking_df = self.__random_walk_rank_lst_to_df(rwr_result_lst=rwr_ranking_lst)
@@ -205,7 +213,10 @@ class Multixrank(object):
             layer_lst = [item for subl in
                          [[layer.key] * len(multiplex.nodes) for layer in multiplex.layer_tuple] for
                          item in subl]
-            score = list(rwr_result_lst[i].T[0])
+            if type(self.pr) == type(None):
+                score = list(rwr_result_lst[i].T[0])
+            else:
+                score = list(rwr_result_lst[i].T)
             rwrrestart_df = pandas.concat([rwrrestart_df, pandas.DataFrame(
                 {'multiplex': multiplex_label_lst, 'node': nodes, 'layer': layer_lst, 'score': score})], axis=0)
         return rwrrestart_df
