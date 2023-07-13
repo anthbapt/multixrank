@@ -1,297 +1,126 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Tutorial &mdash; multixrank 0.0.8 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>Tutorial &mdash; multixrank 0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="next" title="Quick start" href="tutorial/quick_start.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html">
           
-
-          
+          <a href="../index.html">
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
-          
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/quick_start.html">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/score_aggregation.html">Score aggregations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/personalised_pagerank.html">Personalised PageRank</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cite.html">Citation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributor Guide</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">multixrank</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Tutorial</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/content/tutorial.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="tutorial">
-<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
-<p>Commands for a quick working example in the python console:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">multixrank</span>
-<span class="n">multixrank</span><span class="o">.</span><span class="n">Example</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;airport&quot;</span><span class="p">)</span>
-</pre></div>
+             
+  <section id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/quick_start.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/score_aggregation.html">Score aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/personalised_pagerank.html">Personalised PageRank</a></li>
+</ul>
 </div>
-<p>This generates a working example based on the “airport” multiplex:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="sb">`</span>-- airport
-    <span class="p">|</span>-- bipartite
-    <span class="p">|</span>   <span class="p">|</span>-- 1_2.tsv
-    <span class="p">|</span>   <span class="p">|</span>-- 1_3.tsv
-    <span class="p">|</span>   <span class="sb">`</span>-- 2_3.tsv
-    <span class="p">|</span>-- config_minimal.yml
-    <span class="p">|</span>-- multiplex
-    <span class="p">|</span>   <span class="p">|</span>-- <span class="m">1</span>
-    <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>-- FR26.tsv
-    <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>-- FR3.tsv
-    <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>-- FR3_2.tsv
-    <span class="p">|</span>   <span class="p">|</span>   <span class="sb">`</span>-- FR7.tsv
-    <span class="p">|</span>   <span class="p">|</span>-- <span class="m">2</span>
-    <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>-- UK15.tsv
-    <span class="p">|</span>   <span class="p">|</span>   <span class="p">|</span>-- UK26.tsv
-    <span class="p">|</span>   <span class="p">|</span>   <span class="sb">`</span>-- UK3.tsv
-    <span class="p">|</span>   <span class="sb">`</span>-- <span class="m">3</span>
-    <span class="p">|</span>       <span class="p">|</span>-- G1.tsv
-    <span class="p">|</span>       <span class="p">|</span>-- G24.tsv
-    <span class="p">|</span>       <span class="sb">`</span>-- G6.tsv
-    <span class="sb">`</span>-- seeds.txt
-</pre></div>
-</div>
-<p>The minimal configuration file ‘config.yml’ looks like this.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>multiplex:
-    <span class="m">1</span>:
-        layers:
-            - multiplex/1/FR26.tsv
-            - multiplex/1/FR3.tsv
-            - multiplex/1/FR7.tsv
-    <span class="m">2</span>:
-        layers:
-            - multiplex/2/UK15.tsv
-            - multiplex/2/UK26.tsv
-            - multiplex/2/UK3.tsv
-    <span class="m">3</span>:
-        layers:
-            - multiplex/3/G1.tsv
-            - multiplex/3/G24.tsv
-            - multiplex/3/G6.tsv
-bipartite:
-    bipartite/1_2.tsv:
-        source: <span class="m">1</span>
-        target: <span class="m">2</span>
-    bipartite/1_3.tsv:
-        source: <span class="m">1</span>
-        target: <span class="m">3</span>
-    bipartite/2_3.tsv:
-        source: <span class="m">2</span>
-        target: <span class="m">3</span>
-seed:
-    seeds.txt
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">multixrank</span>
-<span class="n">multixrank_obj</span> <span class="o">=</span> <span class="n">multixrank</span><span class="o">.</span><span class="n">Multixrank</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;airport/config_minimal.yml&quot;</span><span class="p">,</span> <span class="n">wdir</span><span class="o">=</span><span class="s2">&quot;airport&quot;</span><span class="p">)</span>
-<span class="n">ranking_df</span> <span class="o">=</span> <span class="n">multixrank_obj</span><span class="o">.</span><span class="n">random_walk_rank</span><span class="p">()</span>
-<span class="n">multixrank_obj</span><span class="o">.</span><span class="n">write_ranking</span><span class="p">(</span><span class="n">ranking_df</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;output_airport&quot;</span><span class="p">)</span>
-<span class="n">multixrank_obj</span><span class="o">.</span><span class="n">to_sif</span><span class="p">(</span><span class="n">ranking_df</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;output_airport/airport_seed7_top3.sif&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This runs the software and writes the results to the output_airport folder:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls output_airport/
-airport_seed7_top3.sif  multiplex_1.tsv  multiplex_2.tsv  multiplex_3.tsv
-</pre></div>
-</div>
-<p>There is a ranking file for each multiplex:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ head -n <span class="m">4</span> output_airport/multiplex_1.tsv
-multiplex   node    score
-<span class="m">1</span>   <span class="m">7</span>       <span class="m">0</span>.250002565842259
-<span class="m">1</span>   <span class="m">169</span>     <span class="m">0</span>.0025983048938841304
-<span class="m">1</span>   <span class="m">199</span>     <span class="m">0</span>.0018837852068513332
-</pre></div>
-</div>
-<p>The SIF file with the sub-network that includes the top 3 nodes can be opened
-and visualized in Cytoscape (<a class="reference external" href="https://cytoscape.org">https://cytoscape.org</a>) as in the following figure:</p>
-<a class="reference internal image-reference" href="../_images/airport.png"><img alt="../_images/airport.png" class="align-center" src="../_images/airport.png" style="width: 400px;" /></a>
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial/quick_start.html" class="btn btn-neutral float-right" title="Quick start" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright Copyright (c) 2021: Anthony Baptista, Aitor González, Anaïs Baudot.
-
-    </p>
+    <p>&#169; Copyright Copyright (c) 2021: Anthony Baptista, Aitor González, Anaïs Baudot.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

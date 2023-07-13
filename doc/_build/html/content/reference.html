@@ -1,96 +1,64 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Reference &mdash; multixrank 0.0.8 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>Reference &mdash; multixrank 0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Citation" href="cite.html" />
-    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+    <link rel="prev" title="Personalised PageRank" href="tutorial/personalised_pagerank.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html">
           
-
-          
+          <a href="../index.html">
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
-          
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#initialization-random-walk-function-and-output">Initialization, random walk function and output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#example-class">Example class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initialization-random-walk-function-and-output">Initialization, random walk function and output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multixrank.Multixrank.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multixrank.Multixrank.random_walk_rank"><code class="docutils literal notranslate"><span class="pre">random_walk_rank()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multixrank.Multixrank.to_sif"><code class="docutils literal notranslate"><span class="pre">to_sif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multixrank.Multixrank.write_ranking"><code class="docutils literal notranslate"><span class="pre">write_ranking()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#example-class">Example class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multixrank.Example.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multixrank.Example.write"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration-and-network-files">Configuration and network files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
 </ul>
@@ -100,83 +68,42 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributor Guide</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">multixrank</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Reference</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Reference</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/content/reference.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="reference">
-<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="initialization-random-walk-function-and-output">
-<h2>Initialization, random walk function and output<a class="headerlink" href="#initialization-random-walk-function-and-output" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h1>
+<section id="initialization-random-walk-function-and-output">
+<h2>Initialization, random walk function and output<a class="headerlink" href="#initialization-random-walk-function-and-output" title="Permalink to this heading"></a></h2>
 <p>These are the main multixrank methods.</p>
 <span class="target" id="module-multixrank.Multixrank"></span><p>Main class to run the random walk with restart in universal multiplex networks</p>
 <dl class="py function">
-<dt id="multixrank.Multixrank.__init__">
-<code class="sig-prename descclassname">multixrank.Multixrank.</code><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">wdir</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Multixrank.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="multixrank.Multixrank.__init__">
+<span class="sig-prename descclassname"><span class="pre">multixrank.Multixrank.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Multixrank.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Constructs an object for the random walk with restart.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<em>str</em>) – Path to the configuration file in YML format. Paths will be used relative to the wdir path variable below</p></li>
 <li><p><strong>wdir</strong> (<em>str</em>) – Path to the working directory that will be as starting point to the paths in the config file.</p></li>
@@ -186,8 +113,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="multixrank.Multixrank.random_walk_rank">
-<code class="sig-prename descclassname">multixrank.Multixrank.</code><code class="sig-name descname">random_walk_rank</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#multixrank.Multixrank.random_walk_rank" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="multixrank.Multixrank.random_walk_rank">
+<span class="sig-prename descclassname"><span class="pre">multixrank.Multixrank.</span></span><span class="sig-name descname"><span class="pre">random_walk_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#multixrank.Multixrank.random_walk_rank" title="Permalink to this definition"></a></dt>
 <dd><p>Function that carries ous the full random walk with restart from a list of seeds.</p>
 <dl class="simple">
 <dt>Returns :</dt><dd><p>rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score</p>
@@ -196,75 +123,80 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="multixrank.Multixrank.to_sif">
-<code class="sig-prename descclassname">multixrank.Multixrank.</code><code class="sig-name descname">to_sif</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">random_walk_rank</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">top</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Multixrank.to_sif" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="multixrank.Multixrank.to_sif">
+<span class="sig-prename descclassname"><span class="pre">multixrank.Multixrank.</span></span><span class="sig-name descname"><span class="pre">to_sif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_walk_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'layered'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gmean'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Multixrank.to_sif" title="Permalink to this definition"></a></dt>
 <dd><p>Writes the ‘random walk results’ to a subnetwork with the ‘top’ nodes as a SIF format (See Cytoscape documentation)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rwr_ranking_df</strong> (<em>pandas.DataFrame</em>) – A pandas Dataframe with columns: multiplex, node, layer, score, which is the output of the random_walk_rank function</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – Path to the TSV file with the random walk results</p></li>
 <li><p><strong>top</strong> (<em>int</em>) – Top nodes based on the random walk score to be included in the TSV file</p></li>
+<li><p><strong>top_type</strong> (<em>str</em>) – “per layer” (top nodes for each layer) or “all” (top nodes any layer)</p></li>
+<li><p><strong>aggregation</strong> (<em>str</em>) – One of “none”, “geometric mean” or “sum”</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="multixrank.Multixrank.write_ranking">
-<code class="sig-prename descclassname">multixrank.Multixrank.</code><code class="sig-name descname">write_ranking</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">random_walk_rank</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">top</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">degree</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Multixrank.write_ranking" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="multixrank.Multixrank.write_ranking">
+<span class="sig-prename descclassname"><span class="pre">multixrank.Multixrank.</span></span><span class="sig-name descname"><span class="pre">write_ranking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_walk_rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gmean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Multixrank.write_ranking" title="Permalink to this definition"></a></dt>
 <dd><p>Writes the ‘random walk results’ to a subnetwork with the ‘top’ nodes as a SIF format (See Cytoscape documentation)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rwr_ranking_df</strong> (<em>pandas.DataFrame</em>) – A pandas Dataframe with columns: multiplex, node, layer, score, which is the output of the random_walk_rank function</p></li>
 <li><p><strong>path</strong> (<em>str</em>) – Path to the SIF file</p></li>
 <li><p><strong>top</strong> (<em>int</em>) – Top nodes based on the random walk score to be included in the SIF file</p></li>
+<li><p><strong>aggregation</strong> (<em>str</em>) – One of “nomean”, “gmean”, “hmean”, “mean”, or “sum”</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="example-class">
-<h2>Example class<a class="headerlink" href="#example-class" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="example-class">
+<h2>Example class<a class="headerlink" href="#example-class" title="Permalink to this heading"></a></h2>
 <p>There is a class to generate a working example.</p>
 <span class="target" id="module-multixrank.Example"></span><dl class="py function">
-<dt id="multixrank.Example.__init__">
-<code class="sig-prename descclassname">multixrank.Example.</code><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Example.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="multixrank.Example.__init__">
+<span class="sig-prename descclassname"><span class="pre">multixrank.Example.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Example.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initiates example class</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="multixrank.Example.write">
-<code class="sig-prename descclassname">multixrank.Example.</code><code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Example.write" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="multixrank.Example.write">
+<span class="sig-prename descclassname"><span class="pre">multixrank.Example.</span></span><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#multixrank.Example.write" title="Permalink to this definition"></a></dt>
 <dd><p>Writes file tree of working example to ‘path’ directory</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the output directory</p>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="configuration-and-network-files">
-<span id="reference-configuration"></span><h2>Configuration and network files<a class="headerlink" href="#configuration-and-network-files" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="configuration-and-network-files">
+<span id="reference-configuration"></span><h2>Configuration and network files<a class="headerlink" href="#configuration-and-network-files" title="Permalink to this heading"></a></h2>
 <p>This configuration file defines network paths, multiplexes, bipartites and numerical parameters for the random walk.
-A working example can be found in the <a class="reference internal" href="tutorial.html#tutorial"><span class="std std-ref">Tutorial</span></a> section.</p>
-<p>This is an example of a minimal configuration YAML file: <a class="reference download internal" download="" href="../_downloads/85c0d46d6bec41f30d2a6babdfca0fed/config_minimal.yml"><code class="xref download docutils literal notranslate"><span class="pre">config_minimal.yml</span></code></a></p>
-<p>This is an example of a configuration YAML file with all parameters: <a class="reference download internal" download="" href="../_downloads/95db23d3f2a5d2a8353c8bfac672b0ff/config_full.yml"><code class="xref download docutils literal notranslate"><span class="pre">config_full.yml</span></code></a></p>
+A working example can be found in the <span class="xref std std-ref">Tutorial</span> section.</p>
+<p>This is an example of a minimal configuration YAML file: <a class="reference download internal" download="" href="../_downloads/b3ada9fad893ceccc75436dd7f7a0b1a/config_minimal.yml"><code class="xref download docutils literal notranslate"><span class="pre">config_minimal.yml</span></code></a></p>
+<p>This is an example of a configuration YAML file with all parameters: <a class="reference download internal" download="" href="../_downloads/659e22d4d926663d193d79aa1de9d49b/config_full.yml"><code class="xref download docutils literal notranslate"><span class="pre">config_full.yml</span></code></a></p>
 <p>Multiplex and bipartite <strong>unweighted</strong> networks are given as two-column TSV files without a header.
-This is an example: <a class="reference download internal" download="" href="../_downloads/a1c4ff8f01a826c00fd2c68f736e9c27/FR3.tsv"><code class="xref download docutils literal notranslate"><span class="pre">FR3.tsv</span></code></a></p>
+This is an example: <a class="reference download internal" download="" href="../_downloads/46d58d5337f955998b6e480a2dbebb26/FR3.tsv"><code class="xref download docutils literal notranslate"><span class="pre">FR3.tsv</span></code></a></p>
 <p>Multiplex and bipartite <strong>weighted</strong> networks are given as two-column TSV files without a header.
-This is an example: <a class="reference download internal" download="" href="../_downloads/be362fb742846ee968e8d19998bb7529/1_3_3columns.tsv"><code class="xref download docutils literal notranslate"><span class="pre">1_3_3columns.tsv</span></code></a></p>
-</div>
-<div class="section" id="parameters">
-<span id="reference-parameter"></span><h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+This is an example: <a class="reference download internal" download="" href="../_downloads/d3a60e57da200bd35256dc44cc6f7c5e/1_3_3columns.tsv"><code class="xref download docutils literal notranslate"><span class="pre">1_3_3columns.tsv</span></code></a></p>
+</section>
+<section id="parameters">
+<span id="reference-parameter"></span><h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <p>Below we explain the numerical parameters needed to run the random walk.</p>
-<div class="figure align-center" id="id1">
+<figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="../_images/parameters.png"><img alt="Parameter schema" src="../_images/parameters.png" style="width: 600px;" /></a>
-<p class="caption"><span class="caption-text">MultiXrank RWR parameters to explore universal multilayer networks composed of N multiplex networks (each composed of several layers containing the same set of nodes but different edges). The parameters ‘delta’ are associated with the probability to jump from one layer to another in a given multiplex network, ‘lambda’ with the probability to jump from one multiplex network to another multiplex network, ‘tau’ with the probability to restart in a given layer of a given multiplex network, and ‘eta’ with the probability to restart in a given multiplex network.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-text">MultiXrank RWR parameters to explore universal multilayer networks composed of N multiplex networks (each composed of several layers containing the same set of nodes but different edges). The parameters ‘delta’ are associated with the probability to jump from one layer to another in a given multiplex network, ‘lambda’ with the probability to jump from one multiplex network to another multiplex network, ‘tau’ with the probability to restart in a given layer of a given multiplex network, and ‘eta’ with the probability to restart in a given multiplex network.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 <p><strong>r</strong></p>
 <ul class="simple">
 <li><p>The global restart probability is given by the float number <strong>r</strong> between 0 and 1</p></li>
@@ -292,7 +224,7 @@ For instance, lambda<sub>ij</sub> represents the probability to jump from the mu
 <p><strong>graph_type</strong> field: unweighted/weighted, undirected/directed</p>
 <p>The multiplex and bipartite graph types as either undirected or directed and unweighted or weighted are given by codes
 00, 01, 10 and 11 in the following way:</p>
-<table class="colwidths-given docutils align-default">
+<table class="docutils align-default">
 <colgroup>
 <col style="width: 44%" />
 <col style="width: 19%" />
@@ -335,55 +267,38 @@ For instance, lambda<sub>ij</sub> represents the probability to jump from the mu
 <li><p>This parameter is a Boolean and takes values 0 or 1.</p></li>
 <li><p>Setting this parameter to 1, it solves the problem of zero columns in the transition matrix if the network was wrongly built.</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial/personalised_pagerank.html" class="btn btn-neutral float-left" title="Personalised PageRank" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="cite.html" class="btn btn-neutral float-right" title="Citation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright Copyright (c) 2021: Anthony Baptista, Aitor González, Anaïs Baudot.
-
-    </p>
+    <p>&#169; Copyright Copyright (c) 2021: Anthony Baptista, Aitor González, Anaïs Baudot.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

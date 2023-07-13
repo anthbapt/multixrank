@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personalised PageRank &mdash; multixrank 0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Reference" href="../reference.html" />
+    <link rel="prev" title="Score aggregations" href="score_aggregation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="score_aggregation.html">Score aggregations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Personalised PageRank</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributor Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">multixrank</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorial.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Personalised PageRank</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/content/tutorial/personalised_pagerank.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="personalised-pagerank">
+<span id="id1"></span><h1>Personalised PageRank<a class="headerlink" href="#personalised-pagerank" title="Permalink to this heading"></a></h1>
+<p>By default, multiXrank uses a set of seed(s) to define the initial restart probability of the random walk with restart.
+However, is possible to bypass this selection of seed(s) by using an ad-hoc initial restart probability.
+This ad-hoc initial restart probability is defined as a normalised distribution of all the nodes.
+Please note that this normalised distribution does not take into account the replica nodes (node duplicate in each layer of the multiplex network).</p>
+<p>The code provided below illustrates the use of an ad-hoc initial restart probability.</p>
+<p>In this section, we will consider the airport multilayer network described in the Quick start section.
+This multilayer network is composed of the following networks:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="sb">`</span>--<span class="w"> </span>airport
+<span class="w">    </span><span class="p">|</span>--<span class="w"> </span>bipartite
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>1_2.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>1_3.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>2_3.tsv
+<span class="w">    </span><span class="p">|</span>--<span class="w"> </span>multiplex
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>FR26.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>FR3.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>FR7.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span><span class="m">2</span>
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>UK15.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span><span class="w">   </span><span class="p">|</span>--<span class="w"> </span>UK26.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span>UK3.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">   </span><span class="sb">`</span>--<span class="w"> </span><span class="m">3</span>
+<span class="w">    </span><span class="p">|</span><span class="w">       </span><span class="p">|</span>--<span class="w"> </span>G1.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">       </span><span class="p">|</span>--<span class="w"> </span>G24.tsv
+<span class="w">    </span><span class="p">|</span><span class="w">       </span><span class="sb">`</span>--<span class="w"> </span>G6.tsv
+</pre></div>
+</div>
+<p>Notably, in the multilayer network considered here, there are 69 nodes: 18 nodes in the first multiplex network, 28 in the second multiplex network, and 23 in the third multiplex network.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">multixrank</span>
+
+<span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">69</span>
+<span class="n">proba_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)</span><span class="o">/</span><span class="n">num_nodes</span>
+<span class="n">mxk</span><span class="o">.</span><span class="n">Example</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;airport_test&quot;</span><span class="p">)</span>
+<span class="n">multixrank_obj</span> <span class="o">=</span> <span class="n">mxk</span><span class="o">.</span><span class="n">Multixrank</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;airport_test/config_minimal.yml&quot;</span><span class="p">,</span> <span class="n">wdir</span><span class="o">=</span><span class="s2">&quot;airport_test&quot;</span><span class="p">,</span> <span class="n">pr</span> <span class="o">=</span> <span class="n">proba_init</span><span class="p">)</span>
+<span class="n">ranking_df</span> <span class="o">=</span> <span class="n">multixrank_obj</span><span class="o">.</span><span class="n">random_walk_rank</span><span class="p">()</span>
+<span class="n">multixrank_obj</span><span class="o">.</span><span class="n">write_ranking</span><span class="p">(</span><span class="n">ranking_df</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;output_airport_test&quot;</span><span class="p">)</span>
+<span class="n">multixrank_</span>
+</pre></div>
+</div>
+<p>We remark that if the initial probability distribution is uniform, then this approach is the well-known PageRank method [1].</p>
+<p>However if the number of layers in the different multiplex is different, the probability distribution will not be uniform. This is come from <span class="math notranslate nohighlight">\(p_{kj} = \frac{p_{k}}{L_{i}}\)</span>, with
+<span class="math notranslate nohighlight">\(p_{kj}\)</span> being the score of the node <span class="math notranslate nohighlight">\(k\)</span> in the layer <span class="math notranslate nohighlight">\(j\)</span> of the multiplex network <span class="math notranslate nohighlight">\(i\)</span>, and <span class="math notranslate nohighlight">\(L_{i}\)</span> being the number of layers in the multiplex network <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>[1] <strong>Brin, S., and Page, L.</strong> The anatomy of a large-scale hypertextual Web search engine Computer Networks and ISDN Systems , Vol. 30, No. 1 p. 107 - 117 (1998)</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="score_aggregation.html" class="btn btn-neutral float-left" title="Score aggregations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../reference.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright (c) 2021: Anthony Baptista, Aitor González, Anaïs Baudot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
