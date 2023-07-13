@@ -28,7 +28,7 @@ class Multixrank(object):
     """Main class to run the random walk with restart in universal multiplex networks"""
 
 
-    def __init__(self, config: str, wdir: str, pr):
+    def __init__(self, config: str, wdir: str, pr=None):
         """
         Constructs an object for the random walk with restart.
 
