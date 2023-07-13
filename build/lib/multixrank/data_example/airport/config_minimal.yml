@@ -1,0 +1,28 @@
+multiplex:
+    1:
+        layers:
+            - multiplex/1/FR26.tsv
+            - multiplex/1/FR3.tsv
+            - multiplex/1/FR7.tsv
+    2:
+        layers:
+            - multiplex/2/UK15.tsv
+            - multiplex/2/UK26.tsv
+            - multiplex/2/UK3.tsv
+    3:
+        layers:
+            - multiplex/3/G1.tsv
+            - multiplex/3/G24.tsv
+            - multiplex/3/G6.tsv
+bipartite:
+    bipartite/1_2.tsv:
+        source: 1
+        target: 2
+    bipartite/1_3.tsv:
+        source: 1
+        target: 3
+    bipartite/2_3.tsv:
+        source: 2
+        target: 3
+seed:
+    seeds.txt
