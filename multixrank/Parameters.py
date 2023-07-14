@@ -85,10 +85,10 @@ class Parameters:
                     print("the " + str(k) + "," + str(i) + " term is " \
                           "incorrect")
                     raise StopIteration
-            if (round(sum(lamb[:,k]), tol) != 1.00) or \
-                round(sum(lamb[:,k]) - lamb[k,k], tol) != round(1-lamb[k,k], tol) :
-                print("Incorrect lamb, the lamb[k,k] term need to " \
-                      "equal to sum(lamb[k,:]")
+            if (round(sum(lamb[k,:]), tol) != 1.00) or \
+                round(sum(lamb[k,:]) - lamb[k,k], tol) != round(1-lamb[k,k], tol) :
+                print("Incorrect lamb, sum(lamb[k,:] need to " \
+                      "equal to 1.00")
                 print("the " + str(k)  + " column is incorrect")
                 raise StopIteration
     
