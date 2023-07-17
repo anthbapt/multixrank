@@ -44,11 +44,10 @@ Notably, in the multilayer network considered here, there are 69 nodes: 18 nodes
 
     num_nodes = 69
     proba_init = np.ones(num_nodes)/num_nodes
-    mxk.Example().write(path="airport_test")
-    multixrank_obj = mxk.Multixrank(config="airport_test/config_minimal.yml", wdir="airport_test", pr = proba_init)
+    multixrank.Example().write(path="airport_test")
+    multixrank_obj = multixrank.Multixrank(config="airport_test/config_minimal.yml", wdir="airport_test", pr = proba_init)
     ranking_df = multixrank_obj.random_walk_rank()
     multixrank_obj.write_ranking(ranking_df, path="output_airport_test")
-    multixrank_
 
 We remark that if the initial probability distribution is uniform, then this approach is the well-known PageRank method [1].
 
