@@ -29,7 +29,7 @@ Commands for a quick installation:
 
 .. code-block:: bash
 
-    conda create --name multixrank python=3.10 -y
+    conda create --name multixrank python=3.12 -y
     python3 -m pip install multixrank
 
 Commands for a quick working example in the python console:
