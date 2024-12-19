@@ -31,8 +31,8 @@ def get_version(rel_path):
     else:
         raise RuntimeError("Unable to find version string.")
 
-if sys.version_info < (3, 7):
-    print("At least Python 3.7 is required.\n", file=sys.stderr)
+if sys.version_info < (3, 8):
+    print("At least Python 3.8 is required.\n", file=sys.stderr)
     exit(1)
 
 try:
@@ -54,11 +54,11 @@ Intended Audience :: Science/Research
 License :: OSI Approved :: MIT License
 Operating System :: OS Independent
 Programming Language :: Python :: 3
-Programming Language :: Python :: 3.7
 Programming Language :: Python :: 3.8
 Programming Language :: Python :: 3.9
 Programming Language :: Python :: 3.10
 Programming Language :: Python :: 3.11
+Programming Language :: Python :: 3.12
 Programming Language :: Python :: 3 :: Only
 Topic :: Software Development :: Libraries :: Python Modules
 Topic :: Scientific/Engineering :: Bio-Informatics
