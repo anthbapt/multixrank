@@ -5,7 +5,7 @@ Commands for a quick installation:
 
 .. code-block:: bash
 
-    conda create --name multixrank python=3.10 -y
+    conda create --name multixrank python=3.12 -y
     python3 -m pip install multixrank
 
 We also provide a singularity container in the multixrank github: https://github.com/anthbapt/multixrank .
