@@ -3,3 +3,4 @@ scipy
 numpy
 pandas
 pyyaml
+sphinx-rtd-theme
