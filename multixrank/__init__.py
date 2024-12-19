@@ -1,4 +1,4 @@
-__version__ = "0.2"
+__version__ = "0.3"
 
 """
 MultiXrank
@@ -7,28 +7,27 @@ Universal multilayer Exploration by Random Walk with Restart
 See https://multixrank.readthedocs.com for complete documentation.
 """
 
-import numpy
-import os
-import copy
-import pandas
+from multixrank.TransitionMatrix import TransitionMatrix
+from multixrank.ConfigParser import ConfigParser
+from multixrank.PathManager import PathManager
+from multixrank.logger_setup import logger
+from multixrank.Output import Output
 import pathlib
 import shutil
+import pandas
+import numpy
+import copy
 import sys
+import os
 
-from multixrank import constants
-from multixrank.BipartiteAll import BipartiteAll
-from multixrank.ConfigParser import ConfigParser
-from multixrank.Output import Output
-from multixrank.PathManager import PathManager
-from multixrank.TransitionMatrix import TransitionMatrix
-from multixrank.logger_setup import logger
+
 
 
 class Multixrank(object):
     """Main class to run the random walk with restart in universal multiplex networks"""
 
 
-    def __init__(self, config: str, wdir: str, pr=None):
+    def __init__(self, config: str, wdir: str, pr = None):
         """
         Constructs an object for the random walk with restart.
 
@@ -49,7 +48,7 @@ class Multixrank(object):
         self.wdir = os.path.join(os.getcwd(), wdir)
 
         if not os.path.isdir(self.wdir):
-            logger_setup.logger.error('This input config_path is NOT a directory: {}'.format(self.wdir))
+            logger.error('This input config_path is NOT a directory: {}'.format(self.wdir))
             sys.exit(1)
 
         #######################################################################
