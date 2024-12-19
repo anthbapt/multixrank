@@ -20,9 +20,13 @@ class MultiplexAll:
         """Creates undirected networkx multigraph"""
 
         if self._multidigraph is None:
-            self._multidigraph = networkx.MultiGraph()
+            self._multidigraph = networkx.MultiGraph().to_directed()
             for multiplex in self.multiplex_tuple:
-                self._multidigraph = networkx.compose(self._multidigraph, multiplex.multidigraph)
+                if networkx.is_directed(multiplex.multidigraph) == True:
+                    self._multidigraph = networkx.compose(self._multidigraph, multiplex.multidigraph)
+                else:
+                    multiplex.multidigraph = multiplex.multidigraph.to_directed()
+                    self._multidigraph = networkx.compose(self._multidigraph, multiplex.multidigraph)
         return self._multidigraph
 
     @property

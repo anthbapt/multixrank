@@ -1,12 +1,8 @@
-import itertools
-import sys
-
-import numpy
-import pandas
-
-from multixrank import logger_setup
-from multixrank import logger_setup
 from multixrank.MultiplexAll import MultiplexAll
+from multixrank import logger_setup
+import pandas
+import numpy
+import sys
 
 
 class Seed:
@@ -107,7 +103,8 @@ class Seed:
             for multiplex_idx, multiplex in enumerate(self._multiplexall_obj.multiplex_tuple):
                 if seed_label in multiplex.nodes:
                     for layer_idx, layer in enumerate(multiplex.layer_tuple):
-                        seed_score_df.loc[seed_label, layer.key] = multiplex.eta * layer.tau / len(self.multiplex_seed_list2d[multiplex_idx])
+                        seed_score_df = seed_score_df.astype(float)
+                        seed_score_df.loc[seed_label, layer.key] = (multiplex.eta * layer.tau) / len(self.multiplex_seed_list2d[multiplex_idx])
                         start = sum(numpy.array(multiplexall_node_count_list[:multiplex_idx]) * numpy.array(multiplexall_layer_count_list[:multiplex_idx])) + (multiplexall_node_count_list[multiplex_idx] * layer_idx)
                         pos = multiplexall_node_list2d[multiplex_idx].index(seed_label) + start
                         prox_vector[pos] = seed_score_df.loc[seed_label, layer.key]
