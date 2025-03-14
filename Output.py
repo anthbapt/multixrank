@@ -2,7 +2,7 @@ import os
 import pandas
 import pathlib
 from scipy.stats import mstats
-
+import numpy as np
 
 class Output:
 
@@ -20,8 +20,17 @@ class Output:
             multiplex_node_prob_zero_df = self._df.loc[self._df.score == 0][['multiplex', 'node']].drop_duplicates()
         
         multiplex_node_prob_zero_df['score'] = 0
-
         if (self.aggregation == "gmean"):
+            # Filter the DataFrame first
+            self._df = self._df.loc[self._df.score > 0].copy()
+            # Compute the logarithm of the 'score' column
+            self._df['log_score'] = np.log(self._df['score'])
+            # Group by and compute the mean of the log scores
+            self._df = self._df.groupby(['multiplex', 'node']).agg({'log_score': 'mean'}).reset_index()
+            # Exponentiate to obtain the geometric mean and clean up
+            self._df['score'] = np.exp(self._df['log_score'])
+            self._df = self._df.drop(columns=['log_score'])
+        if (self.aggregation == "gmean_old"):
             self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.gmean}).reset_index()
         elif (self.aggregation == "hmean"):
             self._df = (self._df.loc[self._df.score > 0]).groupby(['multiplex', 'node']).agg({'score': mstats.hmean}).reset_index()

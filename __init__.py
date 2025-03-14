@@ -159,7 +159,7 @@ class Multixrank(object):
 
         return rwr_ranking_df
 
-    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, aggregation: str = "gmean", degree: bool = False):
+    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str = None, top: int = None, aggregation: str = "gmean", degree: bool = False):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
 
         Args:
@@ -169,13 +169,17 @@ class Multixrank(object):
             aggregation (str): One of "nomean", "gmean", "hmean", "mean", or "sum"
         """
 
-        if not (aggregation in ['nomean', 'gmean', 'hmean', 'mean', 'sum']):
+        if not (aggregation in ['nomean', 'gmean', 'gmean_old', 'hmean', 'mean', 'sum']):
             logger.error('Aggregation parameter must take one of these values: "nomean", "gmean", "hmean", "mean", or "sum". '
                          'Current value: {}'.format(aggregation))
             sys.exit(1)
         
         output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type="layered", aggregation=aggregation)
-        output_obj.to_tsv(outdir=path, degree=degree)
+
+        if(path != None):
+            output_obj.to_tsv(outdir=path, degree=degree)
+
+        return output_obj._df
 
     def to_sif(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, top_type: str = 'layered', aggregation: str = 'gmean'):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
