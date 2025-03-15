@@ -3,6 +3,9 @@ from . import MultiplexAll
 import numpy
 import scipy
 
+# import line_profiler
+# profile = line_profiler.LineProfiler()
+
 
 class TransitionMatrix:
 
@@ -31,10 +34,17 @@ class TransitionMatrix:
             for i in range(size1):
                 diago = self.Diago[:,i]
                 transition[i, i] = self.get_normalisation_alpha_alpha(i, self.multiplexall_supra_adj_matrix_list[i], diago)
+                # ### test noreg
+                # test = self.get_normalisation_alpha_alpha_old(i, self.multiplexall_supra_adj_matrix_list[i], diago)
+                # print(test)
+                # print(transition[i, i])
+                # assert numpy.array_equal(test.todense(), transition[i, i].todense())
+                # ###
                 for j in range(size1):
                     if j != i:
                         transition[j, i] = self.get_normalization_bipartite_alpha_beta(j, i, bipartite_matrix[j, i], diago)
             self._transition_matrixcoo = scipy.sparse.bmat(transition, format="coo")
+
         return self._transition_matrixcoo
 
     # 1.2.3.1 :
@@ -67,8 +77,74 @@ class TransitionMatrix:
         # import pdb; pdb.set_trace()
         return self.Diago
 
-    # 1.2.3.3 :
     def get_normalisation_alpha_alpha(self, alpha, adjacency, diago) -> scipy.sparse.csr.csr_matrix:
+        """
+
+        Function that compute Normalization for the alpha_alpha term of Transition matrix.
+        The term alpha_alpha correspond to the supra-adjacency matrix of multiplex alpha.
+
+        Args :
+            alpha (int) : Row index of Transition matrix.
+
+            beta (int) : Column index of Transition matrix.
+
+            matrix (scipy.sparse.coo.coo_matrix) : Supra-adjacency matrix for multiplex ithat we want
+            to normalize.
+
+        Returns :
+                alpha_alpha (scipy.sparse.csr.csr_matrix) : Normalized Supra-adjacency matrix for i .
+
+        """
+
+        # multiplexall_node_count_list = [len(x) for x in self.multiplexall_node_list2d]
+        multiplexall_node_count_list = [len(m.nodes) for m in self.multiplex_all.multiplex_tuple]
+        multiplexall_layer_count_list = [len(m.layer_tuple) for m in self.multiplex_all.multiplex_tuple]
+
+        # print(adjacency)
+        size1 = len(self.multiplex_all.multiplex_tuple)
+        tot_strength_nodes_alpha = adjacency.sum(axis=0)
+        diago_up = list(tot_strength_nodes_alpha.flat)
+        diago_down = list(tot_strength_nodes_alpha.flat)
+
+        diago_sum = sum(diago)
+        
+        for k in range(multiplexall_node_count_list[alpha] *
+                    multiplexall_layer_count_list[alpha]):
+            # add for loop for each element in diago (each element correspond to a bipartite matrix, [i,i] list of 0)
+            if diago_sum[k] == 0 : # pas de bipartite
+                diago_up[k] = 0
+                if diago_down[k] == 0:
+                    diago_down[k] = 1
+                else :
+                    diago_down[k] = 1/diago_down[k]
+            else : # so at least one bipartite no zeros
+                diago_down[k] = 0
+                list_value_diago = numpy.zeros(len(diago))
+                for l in range(len(diago)) :
+                    if (diago[l][k] != 0) :
+                        list_value_diago[l] = 1
+                list_value_diago = list_value_diago*self.lamb[:,alpha].T
+                norm = 1
+                for l in range(size1) :
+                    if (l != alpha) :
+                        norm -= list_value_diago[l]
+                if diago_up[k] == 0 :
+                    diago_up[k] = 1
+                else : 
+                    diago_up[k] = norm*(1/diago_up[k])
+        Normalization_matrix_up = scipy.sparse.diags(diago_up, format = "coo")
+        Normalization_matrix_down = scipy.sparse.diags(diago_down, format = "coo")
+        Transition_up = adjacency.dot(Normalization_matrix_up)
+        Transition_down = adjacency.dot(Normalization_matrix_down) 
+        alpha_alpha = Transition_up + Transition_down
+
+        # profile.print_stats()
+
+        return alpha_alpha
+
+    # 1.2.3.3 :
+    # @profile
+    def get_normalisation_alpha_alpha_old(self, alpha, adjacency, diago) -> scipy.sparse.csr.csr_matrix:
         """
 
         Function that compute Normalization for the alpha_alpha term of Transition matrix.
@@ -126,6 +202,9 @@ class TransitionMatrix:
         Transition_up = adjacency.dot(Normalization_matrix_up)
         Transition_down = adjacency.dot(Normalization_matrix_down) 
         alpha_alpha = Transition_up + Transition_down
+
+        # profile.print_stats()
+
         return alpha_alpha
 
     # 1.2.3.2 :

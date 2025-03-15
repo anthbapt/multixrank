@@ -139,6 +139,7 @@ class Multixrank(object):
     ###########################################################################
 
     # 2.1.1 :
+    # @profile
     def random_walk_rank(self) -> pandas.DataFrame:
         """
         Function that carries ous the full random walk with restart from a list of seeds.
@@ -158,6 +159,8 @@ class Multixrank(object):
         # Run RWR algorithm
         rwr_ranking_lst = self.__random_walk_restart(prox_vector, transition_matrixcoo, self.r)
         rwr_ranking_df = self.__random_walk_rank_lst_to_df(rwr_result_lst=rwr_ranking_lst)
+
+        profile.print_stats()
 
         return rwr_ranking_df
 
