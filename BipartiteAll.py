@@ -34,12 +34,35 @@ class BipartiteAll:
             for edge_tple in self.source_target_bipartite_dic:
                 bipartite_obj = self.source_target_bipartite_dic[edge_tple]
                 if isinstance(bipartite_obj.networkx, networkx.Graph):
-                    edge_data_lst = [(u, v, bipartite_obj.networkx[u][v]) for u, v in bipartite_obj.networkx.edges]
-                    self._graph.add_edges_from(edge_data_lst)
+                    self._graph.add_edges_from(bipartite_obj.networkx.edges(data=True))
+        return self._graph
+
+    @property
+    def graph_old(self):
+        """Returns graph with all undirected edges in all bipartites"""
+
+        if self._graph is None:
+            self._graph = networkx.Graph()
+            for edge_tple in self.source_target_bipartite_dic:
+                bipartite_obj = self.source_target_bipartite_dic[edge_tple]
+                if isinstance(bipartite_obj.networkx, networkx.Graph):
+                    self._graph.add_edges_from(bipartite_obj.networkx.edges(data=True))
         return self._graph
 
     @property
     def digraph(self):
+        """Returns graph with all directed edges in all bipartites"""
+
+        if self._digraph is None:
+            self._digraph = networkx.DiGraph()
+            for edge_tple in self.source_target_bipartite_dic:
+                bipartite_obj = self.source_target_bipartite_dic[edge_tple]
+                if isinstance(bipartite_obj.networkx, networkx.Graph):
+                    self._digraph.add_edges_from(bipartite_obj.networkx.edges(data=True))
+        return self._digraph
+
+    @property
+    def digraph_old(self):
         """Returns graph with all directed edges in all bipartites"""
 
         if self._digraph is None:

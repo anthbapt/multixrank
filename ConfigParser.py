@@ -213,13 +213,13 @@ class ConfigParser:
                 layer_abs_path = os.path.join(self.wdir, layer_key)
                 layer_obj = MultiplexLayer(key=layer_key, abspath=layer_abs_path,
                                            graph_type=graph_type_lst[layer_idx], multiplex=multiplex_key, tau=tau_lst[layer_idx], self_loops=self.self_loops)
-                multiplex_node_list = sorted([*set(multiplex_node_list + [*layer_obj.networkx.nodes])])
+                multiplex_node_list = sorted([*set(multiplex_node_list + [*layer_obj.networkx_graph_old.nodes])])
                 layer_obj_list.append(layer_obj)
 
             # Append missing nodes from other layers in one multiplex to each layer
             for layer_idx, layer_obj in enumerate(layer_obj_list):
-                layer_missing_nodes = sorted(set(multiplex_node_list) - set(list(layer_obj.networkx.nodes)))
-                layer_obj.networkx.add_nodes_from(layer_missing_nodes)
+                layer_missing_nodes = sorted(set(multiplex_node_list) - set(list(layer_obj.networkx_graph_old.nodes)))
+                layer_obj.networkx_graph_old.add_nodes_from(layer_missing_nodes)
                 layer_obj_list[layer_idx] = layer_obj  # update
 
             ###################################################################

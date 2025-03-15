@@ -6,6 +6,8 @@ import sys
 
 from .logger_setup import logger
 
+import line_profiler
+profile = line_profiler.LineProfiler()
 
 class MultiplexLayer:
 
@@ -46,7 +48,62 @@ class MultiplexLayer:
         self._networkx = None
 
     @property
-    def networkx(self) -> networkx.Graph:
+    # @profile
+    def networkx_graph(self) -> networkx.Graph:
+        """Converts layer to multigraph networkx object"""
+
+        if self._networkx is None:
+            name_lst = ['source', 'target']
+            dtype_dic = {'source': str, 'target': str}
+            usecols = [0, 1]
+            edge_attrs = ['network_key']
+            is_weighted = False
+
+            if self.graph_type[1] == '1':
+                name_lst = ['source', 'target', 'weight']
+                dtype_dic['weight'] = numpy.float64
+                usecols = [0, 1, 2]
+                edge_attrs = ['network_key', 'weight']
+                is_weighted = True
+
+            networkx_graph_obj = networkx.Graph()
+            if self.graph_type[0] == '1':
+                networkx_graph_obj = networkx.DiGraph()
+
+            multiplex_layer_edge_list_df = pandas.read_csv(
+                self.abspath, sep="\t", header=None, names=name_lst,
+                dtype=dtype_dic, keep_default_na=False, usecols=usecols)
+
+            if not self.self_loops:
+                multiplex_layer_edge_list_df = multiplex_layer_edge_list_df.loc[
+                    ~(multiplex_layer_edge_list_df.source == multiplex_layer_edge_list_df.target)]
+
+            # Efficiently prepare edges using NumPy arrays and list comprehensions
+            sources = multiplex_layer_edge_list_df['source'].values
+            targets = multiplex_layer_edge_list_df['target'].values
+
+            if is_weighted:
+                weights = multiplex_layer_edge_list_df['weight'].values
+                edges = [(s, t, {'network_key': self.key, 'weight': w}) 
+                        for s, t, w in zip(sources, targets, weights)]
+            else:
+                attrs = {'network_key': self.key}
+                edges = [(s, t, attrs) for s, t in zip(sources, targets)]
+
+            networkx_graph_obj.add_edges_from(edges)
+            self._networkx = networkx_graph_obj
+
+            # Validate edges (existing checks remain)
+            self._networkx.remove_edges_from(networkx.selfloop_edges(self._networkx))
+            if len(self._networkx.nodes()) == 0:
+                logger.error(f'The multiplex layer {self.key} has no edges.')
+                sys.exit(1)
+
+        # profile.print_stats()
+        return self._networkx
+
+    @property
+    def networkx_graph_old(self) -> networkx.Graph:
         """Converts layer to multigraph networkx object"""
 
         if self._networkx is None:
@@ -87,5 +144,7 @@ class MultiplexLayer:
                 logger.error(
                     'The following multiplex layer does not return any edge: {}'.format(self.key))
                 sys.exit(1)
+
+        # profile.print_stats()
 
         return self._networkx

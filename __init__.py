@@ -20,7 +20,10 @@ import copy
 import sys
 import os
 
+import line_profiler
+profile = line_profiler.LineProfiler()
 
+import filecmp
 
 
 class Multixrank(object):
@@ -202,9 +205,26 @@ class Multixrank(object):
                          'Current value: {}'.format(top_type))
             sys.exit(1)
         
+        # lp_wrapper = profile(Output.__init__)
+        # lp_wrapper(self, rwr_df=random_walk_rank, multiplexall=self.multiplexall_obj, top=top, top_type=top_type, aggregation=aggregation)
+        # profile.print_stats()
+
         output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type=top_type, aggregation=aggregation)
         pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
+        
+        # lp_wrapper = profile(output_obj.to_sif)
+        # lp_wrapper(path=path, bipartiteall=self.bipartiteall_obj)
+        # profile.print_stats()
+
         output_obj.to_sif(path=path, bipartiteall=self.bipartiteall_obj)
+
+        # ### test noreg
+        # output_obj.multiplexall._multigraph = None
+        # self.bipartiteall_obj._digraph = None
+        # self.bipartiteall_obj._graph = None
+        # output_obj.to_sif_old(path=path+".old", bipartiteall=self.bipartiteall_obj)
+        # assert filecmp.cmp(path, path+".old")
+        # ###
 
     def __random_walk_rank_lst_to_df(self, rwr_result_lst) -> pandas.DataFrame:
         rwrrestart_df = pandas.DataFrame({'multiplex': [], 'node': [], 'layer': [], 'score': []})

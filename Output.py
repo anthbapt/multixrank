@@ -4,6 +4,9 @@ import pathlib
 from scipy.stats import mstats
 import numpy as np
 
+import line_profiler
+profile = line_profiler.LineProfiler()
+
 class Output:
 
     def __init__(self, rwr_df, multiplexall, top: int, top_type: str, aggregation: str):
@@ -27,6 +30,7 @@ class Output:
             self._df['log_score'] = np.log(self._df['score'])
             # Group by and compute the mean of the log scores
             self._df = self._df.groupby(['multiplex', 'node']).agg({'log_score': 'mean'}).reset_index()
+            # self._df = self._df.groupby(['multiplex', 'node'], sort=False, as_index=False)['log_score'].mean()
             # Exponentiate to obtain the geometric mean and clean up
             self._df['score'] = np.exp(self._df['log_score'])
             self._df = self._df.drop(columns=['log_score'])
@@ -64,18 +68,20 @@ class Output:
     def to_sif(self, bipartiteall, path: str):
         pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
         out_lst = []  # list of edges with relation type to write
-        selected_nodes = self._df.node.tolist()
+        selected_nodes = set(self._df.node.tolist())
+        
+        #bottleneck:
+        multigraph = self.multiplexall.multigraph
 
-        # Multiplex undirected edges
-        for u, v, edgeidx in self.multiplexall.multigraph.edges:
-            if (u in selected_nodes) or (v in selected_nodes):
-                edge_data_dic = self.multiplexall.multigraph.get_edge_data(u, v, edgeidx)
+        for u, v, edgeidx in multigraph.edges:
+            if u in selected_nodes or v in selected_nodes:
+                edge_data_dic = multigraph.get_edge_data(u, v, edgeidx)
                 out_lst.append((u, edge_data_dic['network_key'], v))
 
         # Multiplex directed edges
         for u, v, edgeidx in self.multiplexall.multidigraph.edges:
             if u in selected_nodes or v in selected_nodes:
-                edge_data_dic = self.multiplexall.multigraph.get_edge_data(u, v)
+                edge_data_dic = multigraph.get_edge_data(u, v)
                 for edge_key in edge_data_dic:
                     out_lst.append((u, edge_data_dic['network_key'], v))
 
@@ -89,6 +95,39 @@ class Output:
         for u, v in bipartiteall.digraph.edges:
             if u in selected_nodes or v in selected_nodes:
                 edge_data_dic = bipartiteall.digraph.get_edge_data(u, v)
+                out_lst.append((u, edge_data_dic['network_key'], v))
+
+        out_df = pandas.DataFrame(out_lst, columns=['node1', 'relationship_type', 'node2'], dtype=str)
+        out_df.to_csv(path, sep="\t", header=False, index=False)
+
+    def to_sif_old(self, bipartiteall, path: str):
+        pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
+        out_lst = []  # list of edges with relation type to write
+        selected_nodes = self._df.node.tolist()
+
+        # Multiplex undirected edges
+        for u, v, edgeidx in self.multiplexall.multigraph_old.edges:
+            if (u in selected_nodes) or (v in selected_nodes):
+                edge_data_dic = self.multiplexall.multigraph_old.get_edge_data(u, v, edgeidx)
+                out_lst.append((u, edge_data_dic['network_key'], v))
+
+        # Multiplex directed edges
+        for u, v, edgeidx in self.multiplexall.multidigraph.edges:
+            if u in selected_nodes or v in selected_nodes:
+                edge_data_dic = self.multiplexall.multigraph_old.get_edge_data(u, v)
+                for edge_key in edge_data_dic:
+                    out_lst.append((u, edge_data_dic['network_key'], v))
+
+        # Bipartite undirected edges
+        for u, v in bipartiteall.graph_old.edges:
+            if u in selected_nodes or v in selected_nodes:
+                edge_data_dic = bipartiteall.graph_old.get_edge_data(u, v)
+                out_lst.append((u, edge_data_dic['network_key'], v))
+
+        # Bipartite directed edges
+        for u, v in bipartiteall.digraph_old.edges:
+            if u in selected_nodes or v in selected_nodes:
+                edge_data_dic = bipartiteall.digraph_old.get_edge_data(u, v)
                 out_lst.append((u, edge_data_dic['network_key'], v))
 
         out_df = pandas.DataFrame(out_lst, columns=['node1', 'relationship_type', 'node2'], dtype=str)

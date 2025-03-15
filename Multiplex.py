@@ -6,6 +6,9 @@ import scipy
 
 from . import logger_setup
 
+import line_profiler
+profile = line_profiler.LineProfiler()
+
 
 class Multiplex:
 
@@ -29,8 +32,9 @@ class Multiplex:
         self._multigraph = None  # networkx multigraph with undirected edges
         self._multidigraph = None  # networkx multigraph with undirected edges
         self._supra_adj_matrixcoo = None
-
+    
     @property
+    # @profile
     def multigraph(self) -> networkx.MultiGraph:
         """Creates undirected networkx multigraph"""
 
@@ -38,9 +42,28 @@ class Multiplex:
             self._multigraph = networkx.MultiGraph()
             self._multigraph.add_nodes_from(self.nodes, multiplex=self.key)
             for layer in self.layer_tuple:
-                if isinstance(layer.networkx, networkx.Graph):
-                    edge_data_lst = [(u, v, layer.networkx[u][v]) for u, v in layer.networkx.edges]
+                if isinstance(layer.networkx_graph, networkx.Graph):
+                    edge_data = layer.networkx_graph.edges(data=True)
+                    self._multigraph.add_edges_from(edge_data)
+
+            # profile.print_stats() 
+
+        return self._multigraph
+
+    @property
+    def multigraph_old(self) -> networkx.MultiGraph:
+        """Creates undirected networkx multigraph"""
+
+        if self._multigraph is None:
+            self._multigraph = networkx.MultiGraph()
+            self._multigraph.add_nodes_from(self.nodes, multiplex=self.key)
+            for layer in self.layer_tuple:
+                if isinstance(layer.networkx_graph_old, networkx.Graph):
+                    edge_data_lst = [(u, v, layer.networkx_graph_old[u][v]) for u, v in layer.networkx_graph_old.edges]
                     self._multigraph.add_edges_from(edge_data_lst)
+
+            # profile.print_stats() 
+
         return self._multigraph
 
     @property
@@ -51,8 +74,8 @@ class Multiplex:
             self._multidigraph = networkx.MultiDiGraph()
             self._multidigraph.add_nodes_from(self.nodes, multiplex=self.key)
             for layer in self.layer_tuple:
-                if isinstance(layer.networkx, networkx.DiGraph):
-                    edge_data_lst = [(u, v, layer.networkx[u][v]) for u, v in layer.networkx.edges]
+                if isinstance(layer.networkx_graph, networkx.DiGraph):
+                    edge_data_lst = [(u, v, layer.networkx_graph[u][v]) for u, v in layer.networkx_graph.edges]
                     self._multidigraph.add_edges_from(edge_data_lst)
         return self._multidigraph
 
@@ -62,7 +85,7 @@ class Multiplex:
 
         if not self._nodes:
             for layer in self.layer_tuple:
-                self._nodes = self._nodes + list(layer.networkx.nodes)
+                self._nodes = self._nodes + list(layer.networkx_graph.nodes)
             self._nodes = sorted(set(self._nodes))
 
         return self._nodes
@@ -95,7 +118,7 @@ class Multiplex:
                 # for i in range(self.multiplex_layer_count_2dlist[k]):
                 for i, layer_obj in enumerate(self.layer_tuple):
                     # Adjacency_layer = networkx.to_scipy_sparse_array(Layers[i], nodelist=nodes_name, format="coo")
-                    self._supra_adj_matrixcoo = networkx.to_scipy_sparse_array(layer_obj.networkx, nodelist=self.nodes, format="coo")
+                    self._supra_adj_matrixcoo = networkx.to_scipy_sparse_array(layer_obj.networkx_graph, nodelist=self.nodes, format="coo")
                     mask[i, i] = compt
                     compt += 1
                     pieces.append((1 - self.delta) * self._supra_adj_matrixcoo)
@@ -115,7 +138,7 @@ class Multiplex:
                 self._supra_adj_matrixcoo = scipy.sparse.bmat(temp, format="coo")
             else:
                 layer_obj = self.layer_tuple[0]
-                self._supra_adj_matrixcoo = networkx.to_scipy_sparse_array(layer_obj.networkx,
+                self._supra_adj_matrixcoo = networkx.to_scipy_sparse_array(layer_obj.networkx_graph,
                                                                             nodelist=self.nodes,
                                                                             format="coo")
         return self._supra_adj_matrixcoo
