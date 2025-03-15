@@ -6,10 +6,6 @@ import scipy
 
 from . import logger_setup
 
-import line_profiler
-profile = line_profiler.LineProfiler()
-
-
 class Multiplex:
 
     """Class for one multiplex"""
@@ -34,7 +30,6 @@ class Multiplex:
         self._supra_adj_matrixcoo = None
     
     @property
-    # @profile
     def multigraph(self) -> networkx.MultiGraph:
         """Creates undirected networkx multigraph"""
 

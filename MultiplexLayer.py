@@ -6,9 +6,6 @@ import sys
 
 from .logger_setup import logger
 
-import line_profiler
-profile = line_profiler.LineProfiler()
-
 class MultiplexLayer:
 
     """Multiplex layer"""
@@ -48,7 +45,6 @@ class MultiplexLayer:
         self._networkx = None
 
     @property
-    # @profile
     def networkx_graph(self) -> networkx.Graph:
         """Converts layer to multigraph networkx object"""
 

@@ -1,8 +1,5 @@
 import networkx
 
-import line_profiler
-profile = line_profiler.LineProfiler()
-
 from concurrent.futures import ThreadPoolExecutor
 from itertools import chain
 import os
@@ -36,7 +33,6 @@ class MultiplexAll:
         return self._multidigraph
 
     @property
-    # @profile
     def multigraph3(self) -> networkx.MultiGraph:
         """Creates undirected networkx multigraph"""
 
@@ -68,7 +64,6 @@ class MultiplexAll:
         return nodes, edges
 
     @property
-    # @profile
     def multigraph8(self) -> networkx.MultiGraph:
         """Creates undirected networkx multigraph"""
         

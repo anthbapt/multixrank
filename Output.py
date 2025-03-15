@@ -4,9 +4,6 @@ import pathlib
 from scipy.stats import mstats
 import numpy as np
 
-import line_profiler
-profile = line_profiler.LineProfiler()
-
 class Output:
 
     def __init__(self, rwr_df, multiplexall, top: int, top_type: str, aggregation: str):

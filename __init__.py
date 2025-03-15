@@ -20,11 +20,10 @@ import copy
 import sys
 import os
 
-import line_profiler
-profile = line_profiler.LineProfiler()
-
 import filecmp
 
+# import line_profiler
+# profile = line_profiler.LineProfiler()
 
 class Multixrank(object):
     """Main class to run the random walk with restart in universal multiplex networks"""
