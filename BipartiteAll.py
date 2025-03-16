@@ -2,9 +2,6 @@ import networkx
 import numpy
 import scipy
 
-# import line_profiler
-# profile = line_profiler.LineProfiler()
-
 import itertools
 
 class BipartiteAll:
@@ -37,8 +34,8 @@ class BipartiteAll:
             self._graph = networkx.Graph()
             for edge_tple in self.source_target_bipartite_dic:
                 bipartite_obj = self.source_target_bipartite_dic[edge_tple]
-                if isinstance(bipartite_obj.networkx, networkx.Graph):
-                    self._graph.add_edges_from(bipartite_obj.networkx.edges(data=True))
+                if isinstance(bipartite_obj.networkx_graph, networkx.Graph):
+                    self._graph.add_edges_from(bipartite_obj.networkx_graph.edges(data=True))
         return self._graph
 
     @property
@@ -49,8 +46,8 @@ class BipartiteAll:
             self._graph = networkx.Graph()
             for edge_tple in self.source_target_bipartite_dic:
                 bipartite_obj = self.source_target_bipartite_dic[edge_tple]
-                if isinstance(bipartite_obj.networkx, networkx.Graph):
-                    self._graph.add_edges_from(bipartite_obj.networkx.edges(data=True))
+                if isinstance(bipartite_obj.networkx_graph_old, networkx.Graph):
+                    self._graph.add_edges_from(bipartite_obj.networkx_graph_old.edges(data=True))
         return self._graph
 
     @property
@@ -61,8 +58,8 @@ class BipartiteAll:
             self._digraph = networkx.DiGraph()
             for edge_tple in self.source_target_bipartite_dic:
                 bipartite_obj = self.source_target_bipartite_dic[edge_tple]
-                if isinstance(bipartite_obj.networkx, networkx.Graph):
-                    self._digraph.add_edges_from(bipartite_obj.networkx.edges(data=True))
+                if isinstance(bipartite_obj.networkx_graph, networkx.Graph):
+                    self._digraph.add_edges_from(bipartite_obj.networkx_graph.edges(data=True))
         return self._digraph
 
     @property
@@ -73,8 +70,8 @@ class BipartiteAll:
             self._digraph = networkx.DiGraph()
             for edge_tple in self.source_target_bipartite_dic:
                 bipartite_obj = self.source_target_bipartite_dic[edge_tple]
-                if isinstance(bipartite_obj.networkx, networkx.Graph):
-                    edge_data_lst = [(u, v, bipartite_obj.networkx[u][v]) for u, v in bipartite_obj.networkx.edges]
+                if isinstance(bipartite_obj.networkx_graph_old, networkx.Graph):
+                    edge_data_lst = [(u, v, bipartite_obj.networkx_graph_old[u][v]) for u, v in bipartite_obj.networkx_graph_old.edges]
                     self._digraph.add_edges_from(edge_data_lst)
         return self._digraph
 
@@ -94,7 +91,7 @@ class BipartiteAll:
 
                     if multiplex_key1 != multiplex_key2 and (multiplex_key1, multiplex_key2) in self.source_target_bipartite_dic:
                         bipartite_layer_obj = self.source_target_bipartite_dic[(multiplex_key1, multiplex_key2)]
-                        bipartite_layer_networkx = bipartite_layer_obj.networkx
+                        bipartite_layer_networkx = bipartite_layer_obj.networkx_graph
                         bipartite_layer_networkx.remove_edges_from(networkx.selfloop_edges(bipartite_layer_networkx))
                         two_multiplex_nodes = multiplexone_obj1.nodes + multiplexone_obj2.nodes
                         bipartite_layer_networkx_nodes = bipartite_layer_networkx.nodes
@@ -194,7 +191,7 @@ class BipartiteAll:
 
                     # Retrieve and preprocess bipartite graph
                     bipartite_layer = self.source_target_bipartite_dic[bipartite_key]
-                    bipartite_graph = bipartite_layer.networkx
+                    bipartite_graph = bipartite_layer.networkx_graph
                     
                     # Remove self-loops and add missing nodes
                     bipartite_graph.remove_edges_from(networkx.selfloop_edges(bipartite_graph))
@@ -274,7 +271,7 @@ class BipartiteAll:
                     if not (multiplex_key1 == multiplex_key2):
                         if (multiplex_key1, multiplex_key2) in self.source_target_bipartite_dic:
                             bipartite_layer_obj = self.source_target_bipartite_dic[(multiplex_key1, multiplex_key2)]
-                            bipartite_layer_networkx = bipartite_layer_obj.networkx
+                            bipartite_layer_networkx = bipartite_layer_obj.networkx_graph_old
                             bipartite_layer_networkx.remove_edges_from(networkx.selfloop_edges(bipartite_layer_networkx))
                             two_multiplex_nodes = multiplexone_obj1.nodes + multiplexone_obj2.nodes
                             bipartite_layer_networkx_nodes = bipartite_layer_networkx.nodes

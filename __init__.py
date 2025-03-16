@@ -21,6 +21,7 @@ import sys
 import os
 
 import filecmp
+import scipy.sparse
 
 # import line_profiler
 # profile = line_profiler.LineProfiler()
@@ -29,7 +30,7 @@ class Multixrank(object):
     """Main class to run the random walk with restart in universal multiplex networks"""
 
 
-    def __init__(self, config: str, wdir: str, pr = None):
+    def __init__(self, config: str, wdir: str, pr = None, old=False):
         """
         Constructs an object for the random walk with restart.
 
@@ -45,7 +46,7 @@ class Multixrank(object):
         #######################################################################
 
         config_parser_obj = ConfigParser(config=config, wdir=wdir)
-        config_parser_obj.parse()
+        config_parser_obj.parse() if not old else config_parser_obj.parse_old()
         self.pr = pr
         self.wdir = os.path.join(os.getcwd(), wdir)
 
@@ -101,9 +102,8 @@ class Multixrank(object):
             L = self.multiplex_layer_count_list
             temp = [numpy.repeat((self.pr[numpy.sum(N[:i]):numpy.sum(N[:i+1])]/L[i-1]),L[i-1]) for i in range(1,len(L)+1)]
             self.pr = numpy.concatenate(temp)
-
-    # 1.3.3 :
-    def __random_walk_restart(self, prox_vector, transition_matrixcoo, r):
+    
+    def __random_walk_restart(self, prox_vector: numpy.ndarray, transition_matrixcoo: scipy.sparse._coo.coo_array, r: float) -> list:
         """
 
         Function that realize the RWR and give back the steady probability distribution for
@@ -113,6 +113,7 @@ class Multixrank(object):
             nodes of the multiplex.
 
         """
+
         rwr_result_lst = list()
         threshold = 1e-10
         residue = 1
@@ -124,11 +125,13 @@ class Multixrank(object):
             prox_vector_norm = (1 - r) * (transition_matrixcoo.dot(prox_vector_norm)) + r * restart_vector
             residue = numpy.sqrt(sum((prox_vector_norm - old_prox_vector) ** 2))
             itera += 1
+        
         for k in range(len(self.multiplex_layer_count_list)):
             start = sum(numpy.array(self.multiplexall_node_count_list[:k]) * numpy.array(self.multiplex_layer_count_list[:k]))
             end = start + self.multiplexall_node_count_list[k] * self.multiplex_layer_count_list[k]
             data = numpy.array(prox_vector_norm[start:end])
             rwr_result_lst.append(data)
+        
         return rwr_result_lst
 
     ###########################################################################
