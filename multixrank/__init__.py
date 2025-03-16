@@ -7,11 +7,11 @@ Universal multilayer Exploration by Random Walk with Restart
 See https://multixrank.readthedocs.com for complete documentation.
 """
 
-from multixrank.TransitionMatrix import TransitionMatrix
-from multixrank.ConfigParser import ConfigParser
-from multixrank.PathManager import PathManager
-from multixrank.logger_setup import logger
-from multixrank.Output import Output
+from .TransitionMatrix import TransitionMatrix
+from .ConfigParser import ConfigParser
+from .PathManager import PathManager
+from .logger_setup import logger
+from .Output import Output
 import pathlib
 import shutil
 import pandas
@@ -20,14 +20,14 @@ import copy
 import sys
 import os
 
-
-
+import filecmp
+import scipy.sparse
 
 class Multixrank(object):
     """Main class to run the random walk with restart in universal multiplex networks"""
 
 
-    def __init__(self, config: str, wdir: str, pr = None):
+    def __init__(self, config: str, wdir: str, pr = None, old=False):
         """
         Constructs an object for the random walk with restart.
 
@@ -43,7 +43,7 @@ class Multixrank(object):
         #######################################################################
 
         config_parser_obj = ConfigParser(config=config, wdir=wdir)
-        config_parser_obj.parse()
+        config_parser_obj.parse() if not old else config_parser_obj.parse_old()
         self.pr = pr
         self.wdir = os.path.join(os.getcwd(), wdir)
 
@@ -99,9 +99,8 @@ class Multixrank(object):
             L = self.multiplex_layer_count_list
             temp = [numpy.repeat((self.pr[numpy.sum(N[:i]):numpy.sum(N[:i+1])]/L[i-1]),L[i-1]) for i in range(1,len(L)+1)]
             self.pr = numpy.concatenate(temp)
-
-    # 1.3.3 :
-    def __random_walk_restart(self, prox_vector, transition_matrixcoo, r):
+    
+    def __random_walk_restart(self, prox_vector: numpy.ndarray, transition_matrixcoo: scipy.sparse._coo.coo_array, r: float) -> list:
         """
 
         Function that realize the RWR and give back the steady probability distribution for
@@ -111,6 +110,7 @@ class Multixrank(object):
             nodes of the multiplex.
 
         """
+
         rwr_result_lst = list()
         threshold = 1e-10
         residue = 1
@@ -122,11 +122,13 @@ class Multixrank(object):
             prox_vector_norm = (1 - r) * (transition_matrixcoo.dot(prox_vector_norm)) + r * restart_vector
             residue = numpy.sqrt(sum((prox_vector_norm - old_prox_vector) ** 2))
             itera += 1
+        
         for k in range(len(self.multiplex_layer_count_list)):
             start = sum(numpy.array(self.multiplexall_node_count_list[:k]) * numpy.array(self.multiplex_layer_count_list[:k]))
             end = start + self.multiplexall_node_count_list[k] * self.multiplex_layer_count_list[k]
             data = numpy.array(prox_vector_norm[start:end])
             rwr_result_lst.append(data)
+        
         return rwr_result_lst
 
     ###########################################################################
@@ -136,7 +138,6 @@ class Multixrank(object):
     # 2.1 :
     ###########################################################################
 
-    # 2.1.1 :
     def random_walk_rank(self) -> pandas.DataFrame:
         """
         Function that carries ous the full random walk with restart from a list of seeds.
@@ -144,6 +145,7 @@ class Multixrank(object):
         Returns :
                 rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score
         """
+
         bipartite_matrix = self.bipartiteall_obj.bipartite_matrix
         transition_matrix_obj = TransitionMatrix(multiplex_all=self.multiplexall_obj, bipartite_matrix=bipartite_matrix, lamb=self.lamb)
         transition_matrixcoo = transition_matrix_obj.transition_matrixcoo
@@ -159,7 +161,34 @@ class Multixrank(object):
 
         return rwr_ranking_df
 
-    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, aggregation: str = "gmean", degree: bool = False):
+    # 2.1.1 :
+    def random_walk_rank_old(self) -> pandas.DataFrame:
+        """
+        Function that carries ous the full random walk with restart from a list of seeds.
+
+        Returns :
+                rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score
+        """
+
+        bipartite_matrix = self.bipartiteall_obj.bipartite_matrix_old
+
+        transition_matrix_obj = TransitionMatrix(multiplex_all=self.multiplexall_obj, bipartite_matrix=bipartite_matrix, lamb=self.lamb)
+        transition_matrixcoo = transition_matrix_obj.transition_matrixcoo_old
+
+        # Get initial seed probability distribution
+        if type(self.pr) == type(None):
+            prox_vector, seed_score = self.seed_obj.get_seed_scores(transition=transition_matrixcoo)
+        else:
+            prox_vector = self.pr
+        # Run RWR algorithm
+        rwr_ranking_lst = self.__random_walk_restart(prox_vector, transition_matrixcoo, self.r)
+        rwr_ranking_df = self.__random_walk_rank_lst_to_df(rwr_result_lst=rwr_ranking_lst)
+
+        return rwr_ranking_df
+
+
+
+    def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str = None, top: int = None, aggregation: str = "gmean", degree: bool = False):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
 
         Args:
@@ -169,13 +198,17 @@ class Multixrank(object):
             aggregation (str): One of "nomean", "gmean", "hmean", "mean", or "sum"
         """
 
-        if not (aggregation in ['nomean', 'gmean', 'hmean', 'mean', 'sum']):
+        if not (aggregation in ['nomean', 'gmean', 'gmean_old', 'hmean', 'mean', 'sum']):
             logger.error('Aggregation parameter must take one of these values: "nomean", "gmean", "hmean", "mean", or "sum". '
                          'Current value: {}'.format(aggregation))
             sys.exit(1)
         
         output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type="layered", aggregation=aggregation)
-        output_obj.to_tsv(outdir=path, degree=degree)
+
+        if(path != None):
+            output_obj.to_tsv(outdir=path, degree=degree)
+
+        return output_obj._df
 
     def to_sif(self, random_walk_rank: pandas.DataFrame, path: str, top: int = None, top_type: str = 'layered', aggregation: str = 'gmean'):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)
@@ -197,10 +230,18 @@ class Multixrank(object):
             logger.error('top_type parameter must take one of these values: "layered" or "all". '
                          'Current value: {}'.format(top_type))
             sys.exit(1)
-        
+
         output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type=top_type, aggregation=aggregation)
         pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
         output_obj.to_sif(path=path, bipartiteall=self.bipartiteall_obj)
+
+        # ### test noreg
+        # output_obj.multiplexall._multigraph = None
+        # self.bipartiteall_obj._digraph = None
+        # self.bipartiteall_obj._graph = None
+        # output_obj.to_sif_old(path=path+".old", bipartiteall=self.bipartiteall_obj)
+        # assert filecmp.cmp(path, path+".old")
+        # ###
 
     def __random_walk_rank_lst_to_df(self, rwr_result_lst) -> pandas.DataFrame:
         rwrrestart_df = pandas.DataFrame({'multiplex': [], 'node': [], 'layer': [], 'score': []})
