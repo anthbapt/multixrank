@@ -138,8 +138,6 @@ class Multixrank(object):
     # 2.1 :
     ###########################################################################
 
-    # 2.1.1 :
-    # @profile
     def random_walk_rank(self) -> pandas.DataFrame:
         """
         Function that carries ous the full random walk with restart from a list of seeds.
@@ -147,6 +145,7 @@ class Multixrank(object):
         Returns :
                 rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score
         """
+
         bipartite_matrix = self.bipartiteall_obj.bipartite_matrix
         transition_matrix_obj = TransitionMatrix(multiplex_all=self.multiplexall_obj, bipartite_matrix=bipartite_matrix, lamb=self.lamb)
         transition_matrixcoo = transition_matrix_obj.transition_matrixcoo
@@ -163,6 +162,36 @@ class Multixrank(object):
         # profile.print_stats()
 
         return rwr_ranking_df
+
+    # 2.1.1 :
+    # @profile
+    def random_walk_rank_old(self) -> pandas.DataFrame:
+        """
+        Function that carries ous the full random walk with restart from a list of seeds.
+
+        Returns :
+                rwr_ranking_df (pandas.DataFrame) : A pandas Dataframe with columns: multiplex, node, layer, score
+        """
+
+        bipartite_matrix = self.bipartiteall_obj.bipartite_matrix_old
+
+        transition_matrix_obj = TransitionMatrix(multiplex_all=self.multiplexall_obj, bipartite_matrix=bipartite_matrix, lamb=self.lamb)
+        transition_matrixcoo = transition_matrix_obj.transition_matrixcoo_old
+
+        # Get initial seed probability distribution
+        if type(self.pr) == type(None):
+            prox_vector, seed_score = self.seed_obj.get_seed_scores(transition=transition_matrixcoo)
+        else:
+            prox_vector = self.pr
+        # Run RWR algorithm
+        rwr_ranking_lst = self.__random_walk_restart(prox_vector, transition_matrixcoo, self.r)
+        rwr_ranking_df = self.__random_walk_rank_lst_to_df(rwr_result_lst=rwr_ranking_lst)
+
+        # profile.print_stats()
+
+        return rwr_ranking_df
+
+
 
     def write_ranking(self, random_walk_rank: pandas.DataFrame, path: str = None, top: int = None, aggregation: str = "gmean", degree: bool = False):
         """Writes the 'random walk results' to a subnetwork with the 'top' nodes as a SIF format (See Cytoscape documentation)

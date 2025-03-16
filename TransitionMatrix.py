@@ -3,9 +3,6 @@ from . import MultiplexAll
 import numpy
 import scipy
 
-# import line_profiler
-# profile = line_profiler.LineProfiler()
-
 
 class TransitionMatrix:
 
@@ -34,6 +31,36 @@ class TransitionMatrix:
             for i in range(size1):
                 diago = self.Diago[:,i]
                 transition[i, i] = self.get_normalisation_alpha_alpha(i, self.multiplexall_supra_adj_matrix_list[i], diago)
+                # ### test noreg
+                # test = self.get_normalisation_alpha_alpha_old(i, self.multiplexall_supra_adj_matrix_list[i], diago)
+                # print(test)
+                # print(transition[i, i])
+                # assert numpy.array_equal(test.todense(), transition[i, i].todense())
+                # ###
+                for j in range(size1):
+                    if j != i:
+                        transition[j, i] = self.get_normalization_bipartite_alpha_beta(j, i, bipartite_matrix[j, i], diago)
+            self._transition_matrixcoo = scipy.sparse.bmat(transition, format="coo")
+
+        return self._transition_matrixcoo
+
+    @property
+    def transition_matrixcoo_old(self):
+
+        if self._transition_matrixcoo is None:
+            bipartite_matrix = self.bipartite_matrix
+            self.multiplexall_supra_adj_matrix_list = []
+            for i, multiplex_obj in enumerate(self.multiplex_all.multiplex_tuple):
+                self.multiplexall_supra_adj_matrix_list.append(multiplex_obj.supra_adj_matrixcoo)
+
+            size1 = len(self.multiplex_all.multiplex_tuple)
+            self.get_normalization_Diago()
+            transition = numpy.zeros((size1, size1), dtype=object)
+            # give full zero block matrix for transition matrix, essential if there
+            # are no bipartite
+            for i in range(size1):
+                diago = self.Diago[:,i]
+                transition[i, i] = self.get_normalisation_alpha_alpha_old(i, self.multiplexall_supra_adj_matrix_list[i], diago)
                 # ### test noreg
                 # test = self.get_normalisation_alpha_alpha_old(i, self.multiplexall_supra_adj_matrix_list[i], diago)
                 # print(test)
