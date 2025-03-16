@@ -1,5 +1,5 @@
-from multixrank.MultiplexAll import MultiplexAll
-from multixrank import logger_setup
+from .MultiplexAll import MultiplexAll
+from . import logger_setup
 import pandas
 import numpy
 import sys

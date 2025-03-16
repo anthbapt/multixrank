@@ -3,7 +3,7 @@ Example of module documentation which can be
 multiple-lined
 """
 
-import multixrank
+from .. import multixrank 
 import os
 import pathlib
 import tempfile

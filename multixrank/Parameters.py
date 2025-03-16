@@ -3,8 +3,8 @@ from fractions import Fraction
 
 import numpy
 
-from multixrank.logger_setup import logger
-from multixrank.MultiplexAll import MultiplexAll
+from .logger_setup import logger
+from .MultiplexAll import MultiplexAll
 
 
 class Parameters:

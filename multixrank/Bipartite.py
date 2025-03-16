@@ -4,8 +4,7 @@ import os
 import pandas
 import sys
 
-from multixrank.logger_setup import logger
-
+from .logger_setup import logger
 
 class Bipartite:
 
@@ -40,7 +39,68 @@ class Bipartite:
         self._networkx = None
 
     @property
-    def networkx(self) -> networkx.Graph:
+    def networkx_graph(self) -> networkx.Graph:
+        """Converts layer to multigraph networkx object"""
+        if self._networkx is None:
+            # Configuration based on graph type
+            is_directed = self.graph_type[0] == '1'
+            is_weighted = self.graph_type[1] == '1'
+            
+            # Column setup
+            cols = ['col2', 'col1']
+            dtypes = {'col1': str, 'col2': str}
+            usecols = [0, 1]
+            edge_attrs = {}
+            
+            if is_weighted:
+                cols.append('weight')
+                dtypes['weight'] = numpy.float64
+                usecols.append(2)
+
+            # Read data with efficient column selection
+            df = pandas.read_csv(
+                self.abspath,
+                sep="\t",
+                header=None,
+                names=cols,
+                dtype=dtypes,
+                usecols=usecols,
+                engine='c'  # Use C engine for faster parsing
+            )
+
+            # Filter self-loops early
+            if not self.self_loops:
+                df = df[df.col1 != df.col2]
+
+            # Convert to numpy arrays for fast processing
+            sources = df.col2.values
+            targets = df.col1.values
+            weights = df.weight.values if is_weighted else None
+
+            # Create graph with single-pass edge construction
+            nx_graph = networkx.DiGraph() if is_directed else networkx.Graph()
+            edge_data = {'network_key': self.key}
+            
+            if is_weighted:
+                edges = ((s, t, {'network_key': self.key, 'weight': w}) 
+                        for s, t, w in zip(sources, targets, weights))
+            else:
+                # Use same dict reference for all edges to save memory
+                edges = ((s, t, edge_data) for s, t in zip(sources, targets))
+            
+            nx_graph.add_edges_from(edges)
+
+            # Final validation
+            if not nx_graph.edges():
+                logger.error(f'Bipartite graph {self.key} has no edges after processing')
+                sys.exit(1)
+
+            self._networkx = nx_graph
+
+        return self._networkx
+
+    @property
+    def networkx_graph_old(self) -> networkx.Graph:
         """Converts layer to multigraph networkx object"""
 
         if self._networkx is None:
