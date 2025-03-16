@@ -53,8 +53,6 @@ class MultiplexAll:
             self._multigraph.add_nodes_from(all_nodes)
             self._multigraph.add_edges_from(all_edges)
 
-            profile.print_stats()  
-
         return self._multigraph
 
     def extract_multigraph_data(self, multiplex):
@@ -80,8 +78,6 @@ class MultiplexAll:
             # Bulk add nodes and edges
             self._multigraph.add_nodes_from(chain.from_iterable(n for n, _ in results))
             self._multigraph.add_edges_from(chain.from_iterable(e for _, e in results))
-
-            # profile.print_stats()
 
         return self._multigraph
 

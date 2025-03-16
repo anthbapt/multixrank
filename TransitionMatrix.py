@@ -165,12 +165,9 @@ class TransitionMatrix:
         Transition_down = adjacency.dot(Normalization_matrix_down) 
         alpha_alpha = Transition_up + Transition_down
 
-        # profile.print_stats()
-
         return alpha_alpha
 
     # 1.2.3.3 :
-    # @profile
     def get_normalisation_alpha_alpha_old(self, alpha, adjacency, diago) -> scipy.sparse.csr.csr_matrix:
         """
 
@@ -229,9 +226,7 @@ class TransitionMatrix:
         Transition_up = adjacency.dot(Normalization_matrix_up)
         Transition_down = adjacency.dot(Normalization_matrix_down) 
         alpha_alpha = Transition_up + Transition_down
-
-        # profile.print_stats()
-
+        
         return alpha_alpha
 
     # 1.2.3.2 :

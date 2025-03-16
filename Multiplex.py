@@ -41,8 +41,6 @@ class Multiplex:
                     edge_data = layer.networkx_graph.edges(data=True)
                     self._multigraph.add_edges_from(edge_data)
 
-            # profile.print_stats() 
-
         return self._multigraph
 
     @property
@@ -56,8 +54,6 @@ class Multiplex:
                 if isinstance(layer.networkx_graph_old, networkx.Graph):
                     edge_data_lst = [(u, v, layer.networkx_graph_old[u][v]) for u, v in layer.networkx_graph_old.edges]
                     self._multigraph.add_edges_from(edge_data_lst)
-
-            # profile.print_stats() 
 
         return self._multigraph
 

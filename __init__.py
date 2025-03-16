@@ -23,9 +23,6 @@ import os
 import filecmp
 import scipy.sparse
 
-# import line_profiler
-# profile = line_profiler.LineProfiler()
-
 class Multixrank(object):
     """Main class to run the random walk with restart in universal multiplex networks"""
 
@@ -162,12 +159,9 @@ class Multixrank(object):
         rwr_ranking_lst = self.__random_walk_restart(prox_vector, transition_matrixcoo, self.r)
         rwr_ranking_df = self.__random_walk_rank_lst_to_df(rwr_result_lst=rwr_ranking_lst)
 
-        # profile.print_stats()
-
         return rwr_ranking_df
 
     # 2.1.1 :
-    # @profile
     def random_walk_rank_old(self) -> pandas.DataFrame:
         """
         Function that carries ous the full random walk with restart from a list of seeds.
@@ -189,8 +183,6 @@ class Multixrank(object):
         # Run RWR algorithm
         rwr_ranking_lst = self.__random_walk_restart(prox_vector, transition_matrixcoo, self.r)
         rwr_ranking_df = self.__random_walk_rank_lst_to_df(rwr_result_lst=rwr_ranking_lst)
-
-        # profile.print_stats()
 
         return rwr_ranking_df
 
@@ -238,18 +230,9 @@ class Multixrank(object):
             logger.error('top_type parameter must take one of these values: "layered" or "all". '
                          'Current value: {}'.format(top_type))
             sys.exit(1)
-        
-        # lp_wrapper = profile(Output.__init__)
-        # lp_wrapper(self, rwr_df=random_walk_rank, multiplexall=self.multiplexall_obj, top=top, top_type=top_type, aggregation=aggregation)
-        # profile.print_stats()
 
         output_obj = Output(random_walk_rank, self.multiplexall_obj, top=top, top_type=top_type, aggregation=aggregation)
         pathlib.Path(os.path.dirname(path)).mkdir(exist_ok=True, parents=True)
-        
-        # lp_wrapper = profile(output_obj.to_sif)
-        # lp_wrapper(path=path, bipartiteall=self.bipartiteall_obj)
-        # profile.print_stats()
-
         output_obj.to_sif(path=path, bipartiteall=self.bipartiteall_obj)
 
         # ### test noreg

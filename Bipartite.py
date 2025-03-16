@@ -6,9 +6,6 @@ import sys
 
 from .logger_setup import logger
 
-import line_profiler
-profile = line_profiler.LineProfiler()
-
 class Bipartite:
 
     """Multiplex layer"""
@@ -103,7 +100,6 @@ class Bipartite:
         return self._networkx
 
     @property
-    @profile
     def networkx_graph_old(self) -> networkx.Graph:
         """Converts layer to multigraph networkx object"""
 
@@ -143,7 +139,5 @@ class Bipartite:
                     'The following bipartite graph does not return any edge: {}'.format(
                         self.key))
                 sys.exit(1)
-
-            # profile.print_stats()
 
         return self._networkx

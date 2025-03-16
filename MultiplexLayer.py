@@ -95,7 +95,6 @@ class MultiplexLayer:
                 logger.error(f'The multiplex layer {self.key} has no edges.')
                 sys.exit(1)
 
-        # profile.print_stats()
         return self._networkx
 
     @property
@@ -140,7 +139,5 @@ class MultiplexLayer:
                 logger.error(
                     'The following multiplex layer does not return any edge: {}'.format(self.key))
                 sys.exit(1)
-
-        # profile.print_stats()
 
         return self._networkx
